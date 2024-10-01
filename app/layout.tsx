@@ -7,13 +7,14 @@ import { TailwindIndicator } from '@/components/tailwind-indicator'
 import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
+import Script from 'next/script'
 
 export const metadata = {
   metadataBase: process.env.VERCEL_URL
     ? new URL(`https://${process.env.VERCEL_URL}`)
     : undefined,
   title: {
-    default: 'Next.js AI Chatbot',
+    default: '1chain.ai mini app',
     template: `%s - Next.js AI Chatbot`
   },
   description: 'An AI-powered chatbot template built with Next.js and Vercel.',
@@ -38,6 +39,9 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script src='https://telegram.org/js/telegram-web-app.js' strategy='beforeInteractive' />
+      </head>
       <body
         className={cn(
           'font-sans antialiased',
@@ -48,16 +52,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Toaster position="top-center" />
         <Providers
           attribute="class"
-          defaultTheme="system"
+          defaultTheme='light'
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col min-h-screen">
+          <div className="bg-black bg-opacity-15 flex flex-col min-h-screen">
             <Header />
-            <main className="flex flex-col flex-1 bg-muted/50">{children}</main>
-            <div className='w-full h-3 bg-white'>
-
-            </div>
+            <main className="bg-gradient-to-b from-[#000000] to[#00E2E2] via-50% flex flex-col flex-1 items-center justify-center bg-muted/50">{children}</main>
           </div>
           <TailwindIndicator />
         </Providers>

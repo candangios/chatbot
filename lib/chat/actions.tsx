@@ -141,7 +141,10 @@ async function submitUserMessage(content: string) {
     const response = await axios.post('https://api.chatgm.com/api/ai/messages', { message: content });
     if (response) {
       textStream.done(
-        <BotMessage content={response.data.data.message} />
+
+        <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
+        </BotMessage>
+
       )
     }
 
@@ -587,36 +590,40 @@ export const getUIStateFromAIState = (aiState: Chat) => {
     .map((message, index) => ({
       id: `${aiState.chatId}-${index}`,
       display:
-        message.role === 'tool' ? (
-          message.content.map(tool => {
-            return tool.toolName === 'listStocks' ? (
-              <BotCard>
-                {/* TODO: Infer types based on the tool result*/}
-                {/* @ts-expect-error */}
-                <Stocks props={tool.result} />
-              </BotCard>
-            ) : tool.toolName === 'showStockPrice' ? (
-              <BotCard>
-                {/* @ts-expect-error */}
-                <Stock props={tool.result} />
-              </BotCard>
-            ) : tool.toolName === 'showStockPurchase' ? (
-              <BotCard>
-                {/* @ts-expect-error */}
-                <Purchase props={tool.result} />
-              </BotCard>
-            ) : tool.toolName === 'getEvents' ? (
-              <BotCard>
-                {/* @ts-expect-error */}
-                <Events props={tool.result} />
-              </BotCard>
-            ) : null
-          })
-        ) : message.role === 'user' ? (
+        // message.role === 'tool' ? (
+        //   message.content.map(tool => {
+        //     return tool.toolName === 'listStocks' ? (
+        //       <BotCard>
+        //         {/* TODO: Infer types based on the tool result*/}
+        //         {/* @ts-expect-error */}
+        //         <Stocks props={tool.result} />
+        //       </BotCard>
+        //     ) : tool.toolName === 'showStockPrice' ? (
+        //       <BotCard>
+        //         {/* @ts-expect-error */}
+        //         <Stock props={tool.result} />
+        //       </BotCard>
+        //     ) : tool.toolName === 'showStockPurchase' ? (
+        //       <BotCard>
+        //         {/* @ts-expect-error */}
+        //         <Purchase props={tool.result} />
+        //       </BotCard>
+        //     ) : tool.toolName === 'getEvents' ? (
+        //       <BotCard>
+        //         {/* @ts-expect-error */}
+        //         <Events props={tool.result} />
+        //       </BotCard>
+        //     ) : null
+        //   })
+        // ) : 
+        message.role === 'user' ? (
           <UserMessage>{message.content as string}</UserMessage>
         ) : message.role === 'assistant' &&
           typeof message.content === 'string' ? (
-          <BotMessage content={message.content} />
+
+          <div className='flex flex-col'>
+            <BotMessage content={message.content} />
+          </div>
         ) : null
     }))
 }

@@ -17,6 +17,7 @@ import {
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
+import { Input } from './ui/input'
 
 export function PromptForm({
   input,
@@ -27,7 +28,7 @@ export function PromptForm({
 }) {
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
-  const inputRef = React.useRef<HTMLTextAreaElement>(null)
+  const inputRef = React.useRef<HTMLInputElement>(null)
   const { submitUserMessage } = useActions()
   const [_, setMessages] = useUIState<typeof AI>()
 
@@ -66,8 +67,8 @@ export function PromptForm({
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >
-      <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12">
-        <Tooltip>
+      <div className=" flex h-[66px] w-full grow flex-row items-center gap-3 overflow-hidden  ">
+        {/* <Tooltip>
           <TooltipTrigger asChild>
             <Button
               variant="outline"
@@ -82,13 +83,13 @@ export function PromptForm({
             </Button>
           </TooltipTrigger>
           <TooltipContent>New Chat</TooltipContent>
-        </Tooltip>
-        <Textarea
+        </Tooltip> */}
+        {/* <Textarea
           ref={inputRef}
           tabIndex={0}
           onKeyDown={onKeyDown}
-          placeholder="Send a message."
-          className="min-h-[60px] w-full resize-none bg-transparent px-4 py-[1.3rem] focus-within:outline-none sm:text-sm"
+          placeholder="Ask me anything."
+          className="min-h-[32px] w-full resize-none bg-background rounded-full px-4 py-[1.3rem] focus-within:outline-none sm:text-sm text-white"
           autoFocus
           spellCheck={false}
           autoComplete="off"
@@ -97,11 +98,25 @@ export function PromptForm({
           rows={1}
           value={input}
           onChange={e => setInput(e.target.value)}
-        />
-        <div className="absolute right-0 top-[13px] sm:right-4">
+        /> */}
+        <Input
+          ref={inputRef}
+          tabIndex={0}
+          // onKeyDown={onKeyDown}
+          placeholder="Ask me anything."
+          className="min-h-[32px] w-full resize-none bg-[#606069] font-sans text-[12px] rounded-full border-0  px-4 py-[1.3rem] shadow-inputText text-white"
+          autoFocus
+          spellCheck={false}
+          autoComplete="off"
+          autoCorrect="off"
+          name="message"
+          // rows={1}
+          value={input}
+          onChange={e => setInput(e.target.value)} />
+        <div className="right-0 top-[13px] sm:right-4">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button type="submit" size="icon" disabled={input === ''}>
+              <Button type="submit" variant='ghost' size="icon" disabled={input === ''}>
                 <IconArrowElbow />
                 <span className="sr-only">Send message</span>
               </Button>

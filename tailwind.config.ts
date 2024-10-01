@@ -17,6 +17,9 @@ module.exports = {
       }
     },
     extend: {
+      boxShadow: {
+        inputText: 'inset 0 4px 4px rgba(31, 20, 85, 127)',
+      },
       fontFamily: {
         sans: ['var(--font-geist-sans)'],
         mono: ['var(--font-geist-mono)']

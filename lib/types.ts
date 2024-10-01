@@ -17,8 +17,8 @@ export interface Chat extends Record<string, any> {
 export type ServerActionResult<Result> = Promise<
   | Result
   | {
-      error: string
-    }
+    error: string
+  }
 >
 
 export interface Session {
@@ -38,4 +38,14 @@ export interface User extends Record<string, any> {
   email: string
   password: string
   salt: string
+}
+
+// tele user
+export interface UserData {
+  id: number;
+  first_name: string;
+  last_name?: string;
+  username?: string;
+  language_code: string;
+  is_premeum?: boolean;
 }

@@ -7,10 +7,12 @@ import { EmptyScreen } from '@/components/empty-screen'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { useEffect, useState } from 'react'
 import { useUIState, useAIState } from 'ai/rsc'
-import { Message, Session } from '@/lib/types'
+import { Message, Session, UserData } from '@/lib/types'
 import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
+import WebApp from '@twa-dev/sdk'
+import { PromptForm } from './prompt-form'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -25,8 +27,14 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   const [input, setInput] = useState('')
   const [messages] = useUIState()
   const [aiState] = useAIState()
+  const [userData, setUserData] = useState<UserData | null>(null)
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
+  useEffect(() => {
+    if (WebApp.initDataUnsafe.user) {
+      setUserData(WebApp.initDataUnsafe.user as UserData);
+    }
+  }, [])
 
   useEffect(() => {
     if (session?.user) {
@@ -47,6 +55,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
     setNewChatId(id)
   })
 
+
   // useEffect(() => {
   //   missingKeys.map(key => {
   //     toast.error(`Missing ${key} environment variable!`)
@@ -57,28 +66,40 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
     useScrollAnchor()
 
   return (
-    <div
-      className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
-      ref={scrollRef}
-    >
-      <div
-        className={cn('pb-[200px] pt-4 md:pt-10', className)}
-        ref={messagesRef}
-      >
-        {messages.length ? (
-          <ChatList messages={messages} isShared={false} session={session} />
-        ) : (
-          <EmptyScreen />
-        )}
-        <div className="w-full h-px" ref={visibilityRef} />
-      </div>
-      <ChatPanel
-        id={id}
-        input={input}
-        setInput={setInput}
-        isAtBottom={isAtBottom}
-        scrollToBottom={scrollToBottom}
-      />
+    <div className='p-5 w-full '>{
+      !userData ? (
+        // <div
+        //   className="group w-full  bg-gradient-to-b from-[#E5E5E5] to-[#E5E5E5] rounded-[48px] my-4 mx-6 overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
+        //   ref={scrollRef}
+        // >
+        <div
+          className="relative h-full min-h-[460px]  flex flex-col items-center  w-full max-w-[600px] bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]"
+          ref={scrollRef}
+        >
+          <h1 className='h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>CryptoBot</h1>
+          <div className='w-full overflow-auto pt-5 mb-[66px]'
+
+          >
+            {messages.length ? (
+              <ChatList messages={messages} isShared={false} session={session} />
+            ) : (
+              <EmptyScreen />
+            )}
+            <div className="w-full h-px" ref={visibilityRef} />
+          </div>
+          <div className='absolute pr-5 pl-6 bottom-0 w-full'>
+            <ChatPanel
+              id={id}
+              input={input}
+              setInput={setInput}
+              isAtBottom={isAtBottom}
+              scrollToBottom={scrollToBottom}
+            />
+          </div>
+
+        </div >) : (<> not telegram</>)
+    }
     </div>
+
   )
 }

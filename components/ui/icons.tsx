@@ -214,14 +214,8 @@ function IconPlus({ className, ...props }: React.ComponentProps<'svg'>) {
 
 function IconArrowElbow({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 256 256"
-      fill="currentColor"
-      className={cn('size-4', className)}
-      {...props}
-    >
-      <path d="M200 32v144a8 8 0 0 1-8 8H67.31l34.35 34.34a8 8 0 0 1-11.32 11.32l-48-48a8 8 0 0 1 0-11.32l48-48a8 8 0 0 1 11.32 11.32L67.31 168H184V32a8 8 0 0 1 16 0Z" />
+    <svg width="30" height="30" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1.83218 0.953079L18.8651 8.96466C19.7414 9.37682 19.7414 10.6233 18.8651 11.0354L1.83218 19.047C0.944945 19.4643 -0.021903 18.6454 0.243785 17.7016L2.41183 10L0.243784 2.29852C-0.0219036 1.35472 0.944945 0.535759 1.83218 0.953079Z" fill="#00D2C7" />
     </svg>
   )
 }
