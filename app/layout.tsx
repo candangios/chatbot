@@ -52,7 +52,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Toaster position="top-center" />
         <Providers
           attribute="class"
-          defaultTheme='light'
+          // defaultTheme="sytem"
           enableSystem
           disableTransitionOnChange
         >
