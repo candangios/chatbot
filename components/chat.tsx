@@ -67,7 +67,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
 
   return (
     <div className='p-5 w-full '>{
-      !userData ? (
+      userData ? (
         // <div
         //   className="group w-full  bg-gradient-to-b from-[#E5E5E5] to-[#E5E5E5] rounded-[48px] my-4 mx-6 overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
         //   ref={scrollRef}
