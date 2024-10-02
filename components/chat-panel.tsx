@@ -66,7 +66,7 @@ export function ChatPanel({
       />
 
       <div className="">
-        <div className="absolute mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
+        {/* <div className="absolute mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
           {messages.length === 0 &&
             exampleMessages.map((example, index) => (
               <div
@@ -98,7 +98,7 @@ export function ChatPanel({
                 </div>
               </div>
             ))}
-        </div>
+        </div> */}
 
         {messages?.length >= 2 ? (
           <div className="flex h-12 items-center justify-center">
