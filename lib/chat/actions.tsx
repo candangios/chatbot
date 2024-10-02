@@ -146,6 +146,13 @@ async function submitUserMessage(content: string) {
         </BotMessage>
 
       )
+    } else {
+      textStream.done(
+
+        <BotMessage content={'error'}>
+        </BotMessage>
+
+      )
     }
 
   })
