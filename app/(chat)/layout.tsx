@@ -6,7 +6,7 @@ interface ChatLayoutProps {
 
 export default async function ChatLayout({ children }: ChatLayoutProps) {
   return (
-    <div className="w-ful flex justify-center h-[calc(100vh_-_theme(spacing.16))] overflow-hidden">
+    <div className="w-ful flex justify-center h-[100vh] overflow-hidden">
       <SidebarDesktop />
       {children}
     </div>
