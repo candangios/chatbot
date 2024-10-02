@@ -146,6 +146,17 @@ async function submitUserMessage(content: string) {
         </BotMessage>
 
       )
+      aiState.done({
+        ...aiState.get(),
+        messages: [
+          ...aiState.get().messages,
+          {
+            id: nanoid(),
+            role: 'assistant',
+            content: response.data.data.message
+          }
+        ]
+      })
     } else {
       textStream.done(
 
