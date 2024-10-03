@@ -19,8 +19,13 @@ export default async function IndexPage() {
   return (
 
     <AI initialAIState={{ chatId: id, messages: [] }} >
-
+      {/* <div className='flex flex-col w-full h-full'> */}
       <Chat id={id} missingKeys={missingKeys} />
+      {/* <div className='w-full h-3 bg-white'></div> */}
+      {/* </div> */}
+
+
+
     </AI >
   )
 
