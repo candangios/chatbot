@@ -126,43 +126,36 @@ async function submitUserMessage(content: string) {
   const textStream = createStreamableUI(
     <SpinnerMessage />
   )
-  runAsyncFnWithoutBlocking(async () => {
-    await sleep(1000)
+  // runAsyncFnWithoutBlocking(async () => {
+  //   const res
 
+  axios.post('https://api.chatgm.com/api/ai/messages', { message: content }, { timeout: 100000 }).then((response) => {
     textStream.done(
 
-      <p>hello
-
-      </p>
+      <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
+      </BotMessage>
 
     )
-    // axios.post('https://api.chatgm.com/api/ai/messages', { message: content }, { timeout: 100000 }).then((response) => {
-    //   textStream.done(
+    aiState.done({
+      ...aiState.get(),
+      messages: [
+        ...aiState.get().messages,
+        {
+          id: nanoid(),
+          role: 'assistant',
+          content: response.data.data.message
+        }
+      ]
+    })
+  }).catch(error => {
+    textStream.done(
 
-    //     <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
-    //     </BotMessage>
+      <p>error</p>
 
-    //   )
-    //   aiState.done({
-    //     ...aiState.get(),
-    //     messages: [
-    //       ...aiState.get().messages,
-    //       {
-    //         id: nanoid(),
-    //         role: 'assistant',
-    //         content: response.data.data.message
-    //       }
-    //     ]
-    //   })
-    // }).catch(error => {
-    //   textStream.done(
-
-    //     <p>error</p>
-
-    //   )
-    // })
-
+    )
   })
+
+  // })
   return {
     id: nanoid(),
     display: textStream.value
