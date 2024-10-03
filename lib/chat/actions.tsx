@@ -122,69 +122,44 @@ async function submitUserMessage(content: string) {
       }
     ]
   })
-  aiState.update({
-    ...aiState.get(),
-    messages: [
-      ...aiState.get().messages,
-      {
-        id: nanoid(),
-        role: 'assistant',
-        content
-      }
-    ]
-  })
 
   const textStream = createStreamableUI(
     <SpinnerMessage />
   )
   runAsyncFnWithoutBlocking(async () => {
-    try {
-      const response = await axios.post('https://api.chatgm.com/api/ai/messages', { message: content });
-      if (response) {
-        textStream.done(
 
-          <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
-          </BotMessage>
-
-        )
-        aiState.done({
-          ...aiState.get(),
-          messages: [
-            ...aiState.get().messages,
-            {
-              id: nanoid(),
-              role: 'assistant',
-              content: response.data.data.message
-            }
-          ]
-        })
-      } else {
-        textStream.done(
-
-          <BotMessage content={'error'}>
-          </BotMessage>
-
-        )
-      }
-
-    } catch (error) {
+    axios.post('https://api.chatgm.com/api/ai/messages', { message: content }, { timeout: 100000 }).then((response) => {
       textStream.done(
 
-        <BotMessage content={'catch'}>
+        <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
         </BotMessage>
 
       )
-    }
+      aiState.done({
+        ...aiState.get(),
+        messages: [
+          ...aiState.get().messages,
+          {
+            id: nanoid(),
+            role: 'assistant',
+            content: response.data.data.message
+          }
+        ]
+      })
+    }).catch(error => {
+      textStream.done(
 
+        <p>error</p>
+
+      )
+    })
 
   })
-
-
-
   return {
     id: nanoid(),
     display: textStream.value
   }
+
 
   // let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   // let textNode: undefined | React.ReactNode
