@@ -127,32 +127,40 @@ async function submitUserMessage(content: string) {
     <SpinnerMessage />
   )
   runAsyncFnWithoutBlocking(async () => {
+    await sleep(1000)
 
-    axios.post('https://api.chatgm.com/api/ai/messages', { message: content }, { timeout: 100000 }).then((response) => {
-      textStream.done(
+    textStream.done(
 
-        <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
-        </BotMessage>
+      <p>hello
 
-      )
-      aiState.done({
-        ...aiState.get(),
-        messages: [
-          ...aiState.get().messages,
-          {
-            id: nanoid(),
-            role: 'assistant',
-            content: response.data.data.message
-          }
-        ]
-      })
-    }).catch(error => {
-      textStream.done(
+      </p>
 
-        <p>error</p>
+    )
+    // axios.post('https://api.chatgm.com/api/ai/messages', { message: content }, { timeout: 100000 }).then((response) => {
+    //   textStream.done(
 
-      )
-    })
+    //     <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
+    //     </BotMessage>
+
+    //   )
+    //   aiState.done({
+    //     ...aiState.get(),
+    //     messages: [
+    //       ...aiState.get().messages,
+    //       {
+    //         id: nanoid(),
+    //         role: 'assistant',
+    //         content: response.data.data.message
+    //       }
+    //     ]
+    //   })
+    // }).catch(error => {
+    //   textStream.done(
+
+    //     <p>error</p>
+
+    //   )
+    // })
 
   })
   return {
