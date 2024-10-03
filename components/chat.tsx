@@ -13,6 +13,7 @@ import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
 import WebApp from '@twa-dev/sdk'
 import { PromptForm } from './prompt-form'
+import { ButtonScrollToBottom } from './button-scroll-to-bottom'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -66,28 +67,53 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
     useScrollAnchor()
 
   return (
-    // <div className='group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]'>
+    <div className='relative flex flex-col h-full bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]'>
+      <h1 className='w-full  h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>CryptoBot</h1>
+      <div className='grow w-full overflow-auto '
+        ref={scrollRef}>
 
+        <div className={cn('', className)}
+          ref={messagesRef}
 
+        >
+          {messages.length ? (
+            <ChatList messages={messages} isShared={false} session={session} />
+          ) : (
+            // <></>
+            <EmptyScreen />
+          )}
+          <div className="w-full h-px" ref={visibilityRef} />
+        </div>
+        <ButtonScrollToBottom
+          isAtBottom={isAtBottom}
+          scrollToBottom={scrollToBottom}
+        />
 
-    <div
-      className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]  bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]"
-      ref={scrollRef}
-    >
-      <h1 className='w-full relative h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>CryptoBot</h1>
-      <div className={cn('pb-[200px] pt-4 md:pt-10', className)}
-        ref={messagesRef}
-
-      >
-        {messages.length ? (
-          <ChatList messages={messages} isShared={false} session={session} />
-        ) : (
-
-          <EmptyScreen />
-        )}
-        <div className="w-full h-px" ref={visibilityRef} />
       </div>
-      <div className='absolute pr-5 pl-6 bottom-0 w-full'>
+      {/* <div
+        className="w-full h-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]  bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]"
+        ref={scrollRef}
+      >
+
+        <h1 className='w-full  h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>CryptoBot</h1>
+        <div className={cn('pb-[200px] pt-4 md:pt-10', className)}
+          ref={messagesRef}
+
+        >
+          {messages.length ? (
+            <ChatList messages={messages} isShared={false} session={session} />
+          ) : (
+            <></>
+            // <EmptyScreen />
+          )}
+          <div className="w-full h-px" ref={visibilityRef} />
+        </div>
+
+
+
+
+      </div > */}
+      <div className=' pr-5 pl-6 bottom-0 w-full'>
         <ChatPanel
           id={id}
           input={input}
@@ -97,7 +123,10 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         />
       </div>
 
-    </div >
+
+    </div>
+
+
 
     // </div>
 

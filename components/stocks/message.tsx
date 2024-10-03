@@ -31,6 +31,7 @@ export function BotMessage({
   content,
   className,
   children,
+
 }: {
   content: string | StreamableValue<string>
   className?: string

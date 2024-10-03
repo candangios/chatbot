@@ -122,19 +122,25 @@ async function submitUserMessage(content: string) {
       }
     ]
   })
+  function getRandomArbitrary(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
 
   const textStream = createStreamableUI(
     <SpinnerMessage />
   )
   runAsyncFnWithoutBlocking(async () => {
-
-
+    const startTime = Date.now()
     axios.post('https://api.chatgm.com/api/ai/messages', { message: content }, { timeout: 100000 }).then((response) => {
       textStream.done(
+        <div className='flex flex-col'>
+          <BotMessage content={response.data.data.message}>
+          </BotMessage>
+          <div className='pl-10'>
+            <p className='text-[#0045C6] ml-10 text-sm'>This result is getting <span className='text-[#0045C6]'>{Number(response.data.data.accuraty).toFixed(1)}%</span> + consensus from <>{(Date.now() - startTime) / 1000}</> times running of <>{response.data.data.nodes}</> notes in <>{getRandomArbitrary(5, 14)}</> LLMs</p>
+          </div>
 
-        <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
-        </BotMessage>
-
+        </div>
       )
       aiState.done({
         ...aiState.get(),
@@ -149,9 +155,7 @@ async function submitUserMessage(content: string) {
       })
     }).catch(error => {
       textStream.done(
-
         <p>error</p>
-
       )
     })
 

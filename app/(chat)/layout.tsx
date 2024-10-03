@@ -6,7 +6,7 @@ interface ChatLayoutProps {
 
 export default async function ChatLayout({ children }: ChatLayoutProps) {
   return (
-    <div className="max-w-[600px] mx-auto relative flex  h-[calc(100vh_-_theme(spacing.16))] overflow-hidden my-4" >
+    <div className="max-w-[600px] mx-auto   h-[calc(100vh_-_theme(spacing.16))] overflow-hidden my-4" >
       <SidebarDesktop />
       {children}
 
