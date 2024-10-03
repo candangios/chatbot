@@ -39,9 +39,9 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
+      {/* <head>
         <Script src='https://telegram.org/js/telegram-web-app.js' strategy='beforeInteractive' />
-      </head>
+      </head> */}
       <body
         className={cn(
           'font-sans antialiased',
@@ -52,7 +52,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Toaster position="top-center" />
         <Providers
           attribute="class"
-          // defaultTheme="sytem"
+          defaultTheme="sytem"
           enableSystem
           disableTransitionOnChange
         >

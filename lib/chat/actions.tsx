@@ -137,36 +137,47 @@ async function submitUserMessage(content: string) {
   const textStream = createStreamableUI(
     <SpinnerMessage />
   )
-  // runAsyncFnWithoutBlocking(async () => {
-  const response = await axios.post('https://api.chatgm.com/api/ai/messages', { message: content });
-  if (response) {
-    textStream.done(
+  runAsyncFnWithoutBlocking(async () => {
+    try {
+      const response = await axios.post('https://api.chatgm.com/api/ai/messages', { message: content });
+      if (response) {
+        textStream.done(
 
-      <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
-      </BotMessage>
+          <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
+          </BotMessage>
 
-    )
-    aiState.done({
-      ...aiState.get(),
-      messages: [
-        ...aiState.get().messages,
-        {
-          id: nanoid(),
-          role: 'assistant',
-          content: response.data.data.message
-        }
-      ]
-    })
-  } else {
-    textStream.done(
+        )
+        aiState.done({
+          ...aiState.get(),
+          messages: [
+            ...aiState.get().messages,
+            {
+              id: nanoid(),
+              role: 'assistant',
+              content: response.data.data.message
+            }
+          ]
+        })
+      } else {
+        textStream.done(
 
-      <BotMessage content={'error'}>
-      </BotMessage>
+          <BotMessage content={'error'}>
+          </BotMessage>
 
-    )
-  }
+        )
+      }
 
-  // })
+    } catch (error) {
+      textStream.done(
+
+        <BotMessage content={'catch'}>
+        </BotMessage>
+
+      )
+    }
+
+
+  })
 
 
 
