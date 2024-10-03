@@ -17,8 +17,11 @@ module.exports = {
       }
     },
     extend: {
+      dropShadow: {
+        tabButton: '1px 3px 0 rgba(0, 210, 199, 1)'
+      },
       boxShadow: {
-        inputText: 'inset 0 4px 4px rgba(31, 20, 85, 127)',
+        inputText: 'inset 0 2px 4px 0  rgba(31, 20, 85, 0.54)',
       },
       fontFamily: {
         sans: ['var(--font-geist-sans)'],
