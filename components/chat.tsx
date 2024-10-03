@@ -66,41 +66,40 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
     useScrollAnchor()
 
   return (
-    <div className='p-5 w-full '>{
+    // <div className='group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]'>
 
 
-      // <div
-      //   className="group w-full  bg-gradient-to-b from-[#E5E5E5] to-[#E5E5E5] rounded-[48px] my-4 mx-6 overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
-      //   ref={scrollRef}
-      // >
-      <div
-        className="relative h-full min-h-[460px]  flex flex-col items-center  w-full max-w-[600px] bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]"
-        ref={scrollRef}
+
+    <div
+      className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]  bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]"
+      ref={scrollRef}
+    >
+      <h1 className='w-full relative h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>CryptoBot</h1>
+      <div className={cn('pb-[200px] pt-4 md:pt-10', className)}
+        ref={messagesRef}
+
       >
-        <h1 className='h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>CryptoBot</h1>
-        <div className='w-full overflow-auto pt-5 mb-[66px]'
+        {messages.length ? (
+          <ChatList messages={messages} isShared={false} session={session} />
+        ) : (
+          <></>
+          // <EmptyScreen />
+        )}
+        <div className="w-full h-px" ref={visibilityRef} />
+      </div>
+      <div className='absolute pr-5 pl-6 bottom-0 w-full'>
+        <ChatPanel
+          id={id}
+          input={input}
+          setInput={setInput}
+          isAtBottom={isAtBottom}
+          scrollToBottom={scrollToBottom}
+        />
+      </div>
 
-        >
-          {messages.length ? (
-            <ChatList messages={messages} isShared={false} session={session} />
-          ) : (
-            <EmptyScreen />
-          )}
-          <div className="w-full h-px" ref={visibilityRef} />
-        </div>
-        <div className='absolute pr-5 pl-6 bottom-0 w-full'>
-          <ChatPanel
-            id={id}
-            input={input}
-            setInput={setInput}
-            isAtBottom={isAtBottom}
-            scrollToBottom={scrollToBottom}
-          />
-        </div>
+    </div >
 
-      </div >
-    }
-    </div>
+    // </div>
 
   )
 }

@@ -58,7 +58,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <div className="bg-black bg-opacity-15 flex flex-col min-h-screen">
             {/* <Header /> */}
-            <main className="bg-gradient-to-b from-[#000000] to[#00E2E2] via-50% flex flex-col flex-1 items-center justify-center bg-muted/50">{children}</main>
+            {/* <main>{children}</main> */}
+            <main className="bg-gradient-to-b from-[#000000] to[#00E2E2] via-50%  ">{children}</main>
           </div>
           <TailwindIndicator />
         </Providers>

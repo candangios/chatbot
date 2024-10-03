@@ -127,47 +127,33 @@ async function submitUserMessage(content: string) {
     <SpinnerMessage />
   )
   runAsyncFnWithoutBlocking(async () => {
-    //   const res
-    const request = new Request("https://api.chatgm.com/api/ai/messages", {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: "POST",
-      body: JSON.stringify({ message: content }),
-    });
-
-    const response = await fetch(request);
-    textStream.done(
-      <BotMessage content={response.status.toString()} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
-      </BotMessage>)
 
 
-    // axios.post('https://api.chatgm.com/api/ai/messages', { message: content }, { timeout: 100000 }).then((response) => {
-    //   textStream.done(
+    axios.post('https://api.chatgm.com/api/ai/messages', { message: content }, { timeout: 100000 }).then((response) => {
+      textStream.done(
 
-    //     <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
-    //     </BotMessage>
+        <BotMessage content={response.data.data.message} children={<p className='text-[#393E46] text-[8px]'>This result is getting 99% + consensus from 4,535 times running of 234 notes in 10 LLMs</p>}>
+        </BotMessage>
 
-    //   )
-    //   aiState.done({
-    //     ...aiState.get(),
-    //     messages: [
-    //       ...aiState.get().messages,
-    //       {
-    //         id: nanoid(),
-    //         role: 'assistant',
-    //         content: response.data.data.message
-    //       }
-    //     ]
-    //   })
-    // }).catch(error => {
-    //   textStream.done(
+      )
+      aiState.done({
+        ...aiState.get(),
+        messages: [
+          ...aiState.get().messages,
+          {
+            id: nanoid(),
+            role: 'assistant',
+            content: response.data.data.message
+          }
+        ]
+      })
+    }).catch(error => {
+      textStream.done(
 
-    //     <p>error</p>
+        <p>error</p>
 
-    //   )
-    // })
+      )
+    })
 
   })
   return {
