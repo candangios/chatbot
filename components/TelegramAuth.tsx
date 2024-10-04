@@ -25,7 +25,7 @@ const TelegramAuth = () => {
         const response = await fetch('/api/auth', {
           method: 'POST',
           headers: {
-            'content-Type': 'Application.json'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({ initData })
         })
