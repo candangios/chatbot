@@ -7,7 +7,7 @@ const key = new TextEncoder().encode(process.env.JWTY_SECRET)
 
 
 
-export const SESSTION_DURATION = 60 * 60 * 100; // 1 house
+export const SESSTION_DURATION = 60 * 60 * 1000; // 1 house
 export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
