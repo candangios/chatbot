@@ -12,7 +12,7 @@ export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('1 house')
+    .setExpirationTime('1h')
     .sign(key)
 }
 export async function decrypt(input: string): Promise<any> {

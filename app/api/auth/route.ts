@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     // create new session
 
     const expires = new Date(Date.now() + SESSTION_DURATION)
-    const session = await encrypt({ user })
+    const session = await encrypt({ user, expires })
 
     // save the sesstion in a cookie
     cookies().set('session', session, { expires, httpOnly: true })
