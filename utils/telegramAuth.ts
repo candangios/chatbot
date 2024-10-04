@@ -42,9 +42,9 @@ export function validateTelegramWebAppData(telegramInitData: string): Validation
   const timeDifference = currentTimestamp - authTimestamp
   const fiveMinutesInseconds = 5 * 60
 
-  if (timeDifference > fiveMinutesInseconds) {
-    return { message: 'Telegram data is older than 5 minutes', validatedData: null, user: {} }
-  }
+  // if (timeDifference > fiveMinutesInseconds) {
+  //   return { message: 'Telegram data is older than 5 minutes', validatedData: null, user: {} }
+  // }
   const dataCheckString = Array.from(initData.entries())
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([key, value]) => `${key} = ${value}`)
