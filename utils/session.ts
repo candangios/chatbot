@@ -3,7 +3,7 @@ import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-const key = new TextEncoder().encode('can123')
+const key = new TextEncoder().encode(process.env.JWTY_SECRET)
 
 
 

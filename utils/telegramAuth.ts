@@ -16,13 +16,13 @@ interface ValidationResult {
 }
 
 export function validateTelegramWebAppData(telegramInitData: string): ValidationResult {
-  const BOT_TOKEN = '6589993196:AAHamdAa-4EHsmrPGe46oYF30HC7iXfblIE'
+  const BOT_TOKEN = process.env.BOT_TOKEN
 
   let validatedData: ValidatedData | null
   let user: User
   let message = ''
 
-  if (BOT_TOKEN) {
+  if (!BOT_TOKEN) {
     return { message: 'BOT_TOKEN is not set', validatedData: null, user: {} }
   }
   const initData = new URLSearchParams(telegramInitData)
