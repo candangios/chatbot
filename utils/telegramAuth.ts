@@ -16,7 +16,7 @@ interface ValidationResult {
 }
 
 export function validateTelegramWebAppData(telegramInitData: string): ValidationResult {
-  const BOT_TOKEN = process.env.BOT_TOKEN
+  const BOT_TOKEN = '6589993196:AAHamdAa-4EHsmrPGe46oYF30HC7iXfblIE'
 
   let validatedData: ValidatedData | null
   let user: User
