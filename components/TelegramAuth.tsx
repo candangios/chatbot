@@ -31,17 +31,20 @@ const TelegramAuth = () => {
           },
           body: JSON.stringify({ initData })
         })
-        setmsgError(initData)
+
 
         if (response.ok) {
           setIsAuthentication(true)
           router.refresh()
         } else {
+          const res = await response.json()
+          setmsgError(res)
           console.log('Authentication failed')
           setIsAuthentication(false)
         }
 
       } catch (error) {
+
         console.error('Authentication failed', error)
         setmsgError('Authentication failed')
         setIsAuthentication(false)
