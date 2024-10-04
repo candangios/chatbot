@@ -2,9 +2,11 @@
 
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from 'react'
+import { set } from "zod"
 
 const TelegramAuth = () => {
   const [isAuthentication, setIsAuthentication] = useState(false)
+  const [msgError, setmsgError] = useState('')
   const router = useRouter()
   useEffect(() => {
 
@@ -29,6 +31,8 @@ const TelegramAuth = () => {
           },
           body: JSON.stringify({ initData })
         })
+        setmsgError(initData)
+
         if (response.ok) {
           setIsAuthentication(true)
           router.refresh()
@@ -39,12 +43,14 @@ const TelegramAuth = () => {
 
       } catch (error) {
         console.error('Authentication failed', error)
+        setmsgError('Authentication failed')
         setIsAuthentication(false)
       }
     }
   }
   return (
     <div className="flex flex-col items-center space-y-4 p8">
+      {msgError && (<>{msgError}</>)}
       {isAuthentication ? (
         <>
           <p>Authentication!</p>
