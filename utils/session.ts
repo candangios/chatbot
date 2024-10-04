@@ -4,6 +4,9 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const key = new TextEncoder().encode(process.env.JWTY_SECRET)
+
+
+
 export const SESSTION_DURATION = 60 * 60 * 100; // 1 house
 export async function encrypt(payload: any) {
   return await new SignJWT(payload)
