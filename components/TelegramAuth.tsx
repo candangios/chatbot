@@ -1,5 +1,6 @@
 'use client'
 
+import { init } from "next/dist/compiled/webpack/webpack"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from 'react'
 import { set } from "zod"
@@ -23,32 +24,33 @@ const TelegramAuth = () => {
     WebApp.ready()
     const initData = WebApp.initData
     if (initData) {
-      try {
-        const response = await fetch('/api/auth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ initData })
-        })
+      setmsgError(initData)
+      // try {
+      //   const response = await fetch('/api/auth', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json'
+      //     },
+      //     body: JSON.stringify({ initData })
+      //   })
 
 
-        if (response.ok) {
-          setIsAuthentication(true)
-          router.refresh()
-        } else {
-          const res = await response.json()
-          setmsgError(JSON.stringify(res))
-          console.log('Authentication failed')
-          setIsAuthentication(false)
-        }
+      //   if (response.ok) {
+      //     setIsAuthentication(true)
+      //     router.refresh()
+      //   } else {
+      //     const res = await response.json()
+      //     setmsgError(JSON.stringify(res))
+      //     console.log('Authentication failed')
+      //     setIsAuthentication(false)
+      //   }
 
-      } catch (error) {
+      // } catch (error) {
 
-        console.error('Authentication failed', error)
-        setmsgError('Authentication failed')
-        setIsAuthentication(false)
-      }
+      //   console.error('Authentication failed', error)
+      //   setmsgError('Authentication failed')
+      //   setIsAuthentication(false)
+      // }
     }
   }
   return (
