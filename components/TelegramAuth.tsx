@@ -25,8 +25,8 @@ const TelegramAuth = () => {
     const initData = WebApp.initData
     if (initData) {
       try {
-        const user = JSON.parse(initData)
-        setmsgError(user.toString())
+        // const user = JSON.parse(initData)
+        setmsgError(initData)
         //   const response = await fetch('/api/auth', {
         //     method: 'POST',
         //     headers: {
