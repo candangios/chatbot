@@ -66,8 +66,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           </main>
 
           {/* <div className="bg-black bg-opacity-15 flex flex-col min-h-screen">
-          // <Header />
+
             <main className="bg-gradient-to-b from-[#000000] to[#00E2E2] via-50%  ">{children}</main>
+            <Header />
           </div> */}
           <TailwindIndicator />
         </Providers>
