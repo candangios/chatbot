@@ -62,18 +62,18 @@ export function Chat({ id, className, session }: ChatProps) {
     WebApp.ready()
     const initData = WebApp.initData
     setReferrer(WebApp.initDataUnsafe.start_param || null)
-    // if (initData) {
-    //   try {
-    //     if (referrer) {
-    //       auth(initData, referrer)
-    //     } else { auth(initData) }
+    if (initData) {
+      try {
+        if (referrer) {
+          auth(initData, referrer)
+        } else { auth(initData) }
 
-    //   } catch (error) {
+      } catch (error) {
 
-    //   }
-    // } else {
-    //   auth('user=%7B%22id%22%3A692302440%2C%22first_name%22%3A%22ToTheMoon%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22CanDang1707%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=-96176797667967538&chat_type=private&auth_date=1728445979&hash=f43ecb78146611c03ca188763547bcb03c75a98814058c3b516a6ee600b6e8d0')
-    // }
+      }
+    } else {
+      auth('user=%7B%22id%22%3A692302440%2C%22first_name%22%3A%22ToTheMoon%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22CanDang1707%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=-96176797667967538&chat_type=private&auth_date=1728445979&hash=f43ecb78146611c03ca188763547bcb03c75a98814058c3b516a6ee600b6e8d0')
+    }
   }
 
   return (
@@ -94,8 +94,7 @@ export function Chat({ id, className, session }: ChatProps) {
           {messages.length ? (
             <ChatList messages={messages} isShared={false} session={session} />
           ) : (
-            <>{referrer}</>
-            // <EmptyScreen />
+            <EmptyScreen />
           )}
           <div className="w-full h-px" ref={visibilityRef} />
         </div>
