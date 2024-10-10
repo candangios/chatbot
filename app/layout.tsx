@@ -13,6 +13,7 @@ import TelegramAuth from '@/components/TelegramAuth'
 import BottomNav from '@/components/bottom-nav'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import { AuthProvider } from '@/lib/hooks/use-auth'
+import { AI } from '@/lib/chat/actions'
 
 export const metadata = {
   metadataBase: process.env.VERCEL_URL
@@ -50,7 +51,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       </head> */}
       <body
         className={cn(
-          'font-sans antialiased overflow-hidden',
+          'font-sans antialiased',
           // GeistSans.variable,
           // GeistMono.variable
         )}
@@ -68,15 +69,18 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <TelegramAuth />
           </main> */}
           <AuthProvider>
-            <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#000000] to[#00E2E2] via-50%  bg-black bg-opacity-15  ">
-              <MaxWidthWrapper>
-                <main>
-                  {children}
-                </main>
-              </MaxWidthWrapper>
-              <BottomNav />
-            </div>
-            <TailwindIndicator />
+            <AI>
+              <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#000000] to[#00E2E2] via-50%  bg-black bg-opacity-15  ">
+                <MaxWidthWrapper>
+                  <main>
+                    {children}
+                  </main>
+                </MaxWidthWrapper>
+                <BottomNav />
+              </div>
+              <TailwindIndicator />
+            </AI>
+
           </AuthProvider>
 
 
