@@ -1,6 +1,6 @@
-// hooks/useAuth.ts
+
 'use client'
-import { useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 
@@ -16,29 +16,43 @@ interface User {
   referrals?: [User]
 }
 
+interface AuthContextProps {
+  user: User | null;
+  auth: (initData: string, referrer?: string) => Promise<void>;
+  logout: () => void;
+  isAuthenticated: boolean;
+}
+
 interface AuthResponse {
   access_token: string;
   user: User;
 }
 const BASE_URL = 'https://api.chatgm.com/api'
 
-const useAuth = () => {
+// Tạo context để quản lý trạng thái người dùng
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+
+
+export const useAuth = (): AuthContextProps => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+
+}
+
+export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<User | null>(null);
   const [access_token, setAccess_token] = useState<string | null>(null);
 
 
   // const router = useRouter();
 
-  // Kiểm tra người dùng có access_token khi tải trang không
   useEffect(() => {
     const token = Cookies.get('access_token');
-    console.log(access_token)
     if (token) {
-      if (token != access_token) {
-        setAccess_token(token)
-        fetchUser(token);
-      }
-
+      fetchUser(token);
     }
   }, [access_token]);
 
@@ -59,6 +73,7 @@ const useAuth = () => {
       // Lưu access_token vào cookies
       if (data.access_token) {
         Cookies.set('access_token', data.access_token, { expires: 1 });
+        setAccess_token(data.access_token)
         // setUser(data.user);
         // router.push('/dashboard');
       }
@@ -90,7 +105,14 @@ const useAuth = () => {
     }
   };
 
-  return { user, auth, logout };
+  const isAuthenticated = !!user;
+
+
+  return (
+    <AuthContext.Provider value={{ user, auth, logout, isAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  )
+
 };
 
-export default useAuth;

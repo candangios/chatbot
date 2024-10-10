@@ -14,8 +14,9 @@ import { toast } from 'sonner'
 import WebApp from '@twa-dev/sdk'
 import { PromptForm } from './prompt-form'
 import { ButtonScrollToBottom } from './button-scroll-to-bottom'
-import useAuth from '@/lib/hooks/use-auth'
+
 import { Button } from './ui/button'
+import { useAuth } from '@/lib/hooks/use-auth'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -30,14 +31,9 @@ export function Chat({ id, className, session }: ChatProps) {
   const [messages] = useUIState()
   const [aiState] = useAIState()
   const { user, auth } = useAuth()
-  const [userData, setUserData] = useState<UserData | null>(null)
+  const [referrer, setReferrer] = useState<string | null>(null)
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
-  // useEffect(() => {
-  //   if (WebApp.initDataUnsafe.user) {
-  //     setUserData(WebApp.initDataUnsafe.user as UserData);
-  //   }
-  // }, [])
 
   useEffect(() => {
     if (session?.user) {
@@ -65,13 +61,18 @@ export function Chat({ id, className, session }: ChatProps) {
     const WebApp = (await import('@twa-dev/sdk')).default
     WebApp.ready()
     const initData = WebApp.initData
+    setReferrer(WebApp.initDataUnsafe.start_param || null)
     if (initData) {
       try {
-        console.log(initData)
-        auth('user=%7B%22id%22%3A692302440%2C%22first_name%22%3A%22ToTheMoon%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22CanDang1707%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=-96176797667967538&chat_type=private&auth_date=1728445979&hash=f43ecb78146611c03ca188763547bcb03c75a98814058c3b516a6ee600b6e8d0')
+        if (referrer) {
+          auth(initData, referrer)
+        } else { auth(initData) }
+
       } catch (error) {
 
       }
+    } else {
+      auth('user=%7B%22id%22%3A692302440%2C%22first_name%22%3A%22ToTheMoon%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22CanDang1707%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=-96176797667967538&chat_type=private&auth_date=1728445979&hash=f43ecb78146611c03ca188763547bcb03c75a98814058c3b516a6ee600b6e8d0')
     }
   }
 
