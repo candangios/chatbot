@@ -50,9 +50,8 @@ export const AuthProvider = ({ children }: any) => {
   // const router = useRouter();
 
   useEffect(() => {
-    const token = Cookies.get('access_token');
-    if (token) {
-      fetchUser(token);
+    if (access_token) {
+      fetchUser(access_token);
     }
   }, [access_token]);
 
@@ -72,7 +71,7 @@ export const AuthProvider = ({ children }: any) => {
 
       // Lưu access_token vào cookies
       if (data.access_token) {
-        Cookies.set('access_token', data.access_token, { expires: 1 });
+        // Cookies.set('access_token', data.access_token, { expires: 1 });
         setAccess_token(data.access_token)
         // setUser(data.user);
         // router.push('/dashboard');
