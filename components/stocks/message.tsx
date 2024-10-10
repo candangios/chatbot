@@ -41,7 +41,7 @@ export function BotMessage({
 
   return (
     <div className={cn('group relative flex items-start ', className)}>
-      <div className="flex size-[32px] shrink-0 select-none items-center justify-center rounded-full border bg-primary text-primary-foreground shadow-sm">
+      <div className="flex size-[32px] shrink-0 select-none items-center justify-center rounded-full  bg-primary text-primary-foreground shadow-sm">
         <Image src='/images/ChatBotAvatar.png' alt='chat bot' width={32} height={32} />
         {/* <IconOpenAI /> */}
       </div>
@@ -136,7 +136,7 @@ export function SystemMessage({ children }: { children: React.ReactNode }) {
 export function SpinnerMessage() {
   return (
     <div className="group relative flex items-start ">
-      <div className="flex size-[32px] shrink-0 select-none items-center justify-center rounded-full border bg-primary text-primary-foreground shadow-sm">
+      <div className="flex size-[32px] shrink-0 select-none items-center justify-center rounded-full  bg-primary text-primary-foreground shadow-sm">
         <Image src='/images/ChatBotAvatar.png' alt='chat bot' width={32} height={32} />
         {/* <IconOpenAI /> */}
       </div>

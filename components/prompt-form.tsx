@@ -104,7 +104,7 @@ export function PromptForm({
           tabIndex={0}
           // onKeyDown={onKeyDown}
           placeholder="Ask me anything."
-          className="min-h-[32px] w-full resize-none bg-[#606069] font-sans text-[12px] rounded-full border-0  px-4 py-[1.3rem] shadow-inputText text-white"
+          className="min-h-[32px] w-full resize-none bg-[#606069] font-sans text-[12px] rounded-full   px-4 py-[1.3rem] shadow-inputText text-white"
           autoFocus
           spellCheck={false}
           autoComplete="off"

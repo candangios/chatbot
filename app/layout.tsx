@@ -10,6 +10,8 @@ import { Toaster } from '@/components/ui/sonner'
 import Script from 'next/script'
 import { getSession } from '@/utils/session'
 import TelegramAuth from '@/components/TelegramAuth'
+import BottomNav from '@/components/bottom-nav'
+import MaxWidthWrapper from '@/components/max-width-wrapper'
 
 export const metadata = {
   metadataBase: process.env.VERCEL_URL
@@ -47,9 +49,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       </head> */}
       <body
         className={cn(
-          'font-sans antialiased',
-          GeistSans.variable,
-          GeistMono.variable
+          'font-sans antialiased overflow-hidden',
+          // GeistSans.variable,
+          // GeistMono.variable
         )}
       >
         <Toaster position="top-center" />
@@ -59,17 +61,21 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <main className='flex min-h-screen flex-col items-center justify-center p-24'>
+          {/* <main className='flex min-h-screen flex-col items-center justify-center p-24'>
             <h1 className='text-4xl font-bold mb-8'>JWT Authentication for Telegram mini app</h1>
             <pre>{JSON.stringify(session, null, 2)}</pre>
             <TelegramAuth />
-          </main>
+          </main> */}
 
-          {/* <div className="bg-black bg-opacity-15 flex flex-col min-h-screen">
 
-            <main className="bg-gradient-to-b from-[#000000] to[#00E2E2] via-50%  ">{children}</main>
-            <Header />
-          </div> */}
+          <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#000000] to[#00E2E2] via-50%  bg-black bg-opacity-15  ">
+            <MaxWidthWrapper>
+              <main>
+                {children}
+              </main>
+            </MaxWidthWrapper>
+            <BottomNav />
+          </div>
           <TailwindIndicator />
         </Providers>
       </body>

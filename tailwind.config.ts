@@ -18,10 +18,11 @@ module.exports = {
     },
     extend: {
       dropShadow: {
-        tabButton: '1px 3px 0 rgba(0, 210, 199, 1)'
+        tabButton: '1px 3px 0px rgba(36, 255, 244, 1)'
       },
       boxShadow: {
-        inputText: 'inset 0 2px 4px 0  rgba(31, 20, 85, 0.54)',
+        inputText: 'inset 0 0px 16.9px rgba(31, 20, 85, 0.54)',
+        referralLink: 'inset 0 0 24px rgba(0, 0, 0, 0.3)',
       },
       fontFamily: {
         sans: ['var(--font-geist-sans)'],

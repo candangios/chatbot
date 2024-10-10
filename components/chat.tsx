@@ -14,28 +14,30 @@ import { toast } from 'sonner'
 import WebApp from '@twa-dev/sdk'
 import { PromptForm } from './prompt-form'
 import { ButtonScrollToBottom } from './button-scroll-to-bottom'
+import useAuth from '@/lib/hooks/use-auth'
+import { Button } from './ui/button'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
   id?: string
   session?: Session
-  missingKeys: string[]
 }
 
-export function Chat({ id, className, session, missingKeys }: ChatProps) {
+export function Chat({ id, className, session }: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
   const [messages] = useUIState()
   const [aiState] = useAIState()
+  const { user, auth } = useAuth()
   const [userData, setUserData] = useState<UserData | null>(null)
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
-  useEffect(() => {
-    if (WebApp.initDataUnsafe.user) {
-      setUserData(WebApp.initDataUnsafe.user as UserData);
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (WebApp.initDataUnsafe.user) {
+  //     setUserData(WebApp.initDataUnsafe.user as UserData);
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (session?.user) {
@@ -56,19 +58,26 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
     setNewChatId(id)
   })
 
-
-  // useEffect(() => {
-  //   missingKeys.map(key => {
-  //     toast.error(`Missing ${key} environment variable!`)
-  //   })
-  // }, [missingKeys])
-
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
     useScrollAnchor()
 
+  const authenticateUser = async () => {
+    const WebApp = (await import('@twa-dev/sdk')).default
+    WebApp.ready()
+    const initData = WebApp.initData
+    if (initData) {
+      try {
+        console.log(initData)
+        auth('user=%7B%22id%22%3A692302440%2C%22first_name%22%3A%22ToTheMoon%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22CanDang1707%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=-96176797667967538&chat_type=private&auth_date=1728445979&hash=f43ecb78146611c03ca188763547bcb03c75a98814058c3b516a6ee600b6e8d0')
+      } catch (error) {
+
+      }
+    }
+  }
+
   return (
     <div className='relative flex flex-col h-full bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]'>
-      <h1 className='w-full  h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>CryptoBot</h1>
+      <h1 className='w-full  h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>MachinaFi</h1>
       <div className=' grow w-full overflow-auto '
         ref={scrollRef}>
         <ButtonScrollToBottom
@@ -84,53 +93,28 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
           {messages.length ? (
             <ChatList messages={messages} isShared={false} session={session} />
           ) : (
-            // <></>
             <EmptyScreen />
           )}
           <div className="w-full h-px" ref={visibilityRef} />
         </div>
-
-
       </div>
-      {/* <div
-        className="w-full h-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]  bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]"
-        ref={scrollRef}
-      >
-
-        <h1 className='w-full  h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>CryptoBot</h1>
-        <div className={cn('pb-[200px] pt-4 md:pt-10', className)}
-          ref={messagesRef}
-
-        >
-          {messages.length ? (
-            <ChatList messages={messages} isShared={false} session={session} />
-          ) : (
-            <></>
-            // <EmptyScreen />
-          )}
-          <div className="w-full h-px" ref={visibilityRef} />
-        </div>
-
-
-
-
-      </div > */}
       <div className=' pr-5 pl-6 bottom-0 w-full'>
-        <ChatPanel
+        {user ? (<ChatPanel
           id={id}
           input={input}
           setInput={setInput}
           isAtBottom={isAtBottom}
           scrollToBottom={scrollToBottom}
-        />
+        />) : (<>
+          <Button className='mx-auto' onClick={authenticateUser}>
+            Join
+          </Button>
+        </>)}
+
       </div>
 
 
     </div>
-
-
-
-    // </div>
 
   )
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { user } from "@telegram-apps/sdk/dist/dts/scopes/components/init-data/signals"
+
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from 'react'
 import { set } from "zod"
@@ -22,11 +23,12 @@ const TelegramAuth = () => {
   const authenticateUser = async () => {
     const WebApp = (await import('@twa-dev/sdk')).default
     WebApp.ready()
-    const initData = WebApp.initData
+    const initData = WebApp.initDataUnsafe
     if (initData) {
       try {
+        console.log(initData)
         // const user = JSON.parse(initData)
-        setmsgError(initData)
+        setmsgError(initData.auth_date.toString())
         //   const response = await fetch('/api/auth', {
         //     method: 'POST',
         //     headers: {
