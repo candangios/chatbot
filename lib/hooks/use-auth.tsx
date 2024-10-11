@@ -7,7 +7,7 @@ import { set } from 'zod';
 import { BASE_URL } from '@/config';
 
 // Định nghĩa kiểu dữ liệu cho người dùng
-interface User {
+export interface User {
   telegramId: string;
   username?: string;
   firstName?: string
@@ -56,6 +56,14 @@ export const AuthProvider = ({ children }: any) => {
   //     Cookies.get('access_token', data.access_token, { expires: 1 });
   //   }
   // }, [])
+  useEffect(() => {
+    // Check if the token exists
+    const token = Cookies.get('access_token');
+    if (token) {
+      setAccess_token(token)
+      // fetchUser(token);
+    }
+  }, []);
 
   useEffect(() => {
     if (!user && access_token) {

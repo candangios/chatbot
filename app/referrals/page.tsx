@@ -1,31 +1,45 @@
 'use client'
 
+import { spinner } from "@/components/stocks"
+import { SpinnerMessage } from "@/components/stocks/message"
 import { IconLeaderboard } from "@/components/ui/icons"
 import { BASE_URL } from "@/config"
-import { useAuth } from "@/lib/hooks/use-auth"
+import { useAuth, User } from "@/lib/hooks/use-auth"
 import Image from "next/image"
-import { use } from "react"
+import { use, useEffect, useState } from "react"
+import { set } from "zod"
 
 
 export default function IndexPage() {
-  const { user } = useAuth()
+  const { user, access_token } = useAuth()
+  const [isLoading, setIsLoading] = useState(true)
+  const [users, setUsers] = useState<[User] | null>(null)
+
   const INVITE_URL = 'https://t.me/referral_showcase_bot/start'
   const handleCoppyLink = () => {
     const inviteLink = `${INVITE_URL}?startapp=${user?.telegramId}`
     navigator.clipboard.writeText(inviteLink)
     alert('Invite link copied to clipboard')
   }
+  useEffect(() => {
+    if (access_token) {
+      getLeaderboard(access_token)
+    }
+  }, [access_token])
 
   // Hàm đăng nhập
   const getLeaderboard = async (token: string): Promise<void> => {
     try {
-      const res = await fetch(`${BASE_URL}/telegram/user`, {
+      setIsLoading(true)
+      const res = await fetch(`${BASE_URL}/telegram/leaderboard`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${access_token}`,
         },
       });
+      setIsLoading(false)
       const data = await res.json();
-      const responeJson = await res.json();
+      setUsers(data.data)
+
     } catch (error) {
       console.error('Error get leader board:', error);
     }
@@ -39,8 +53,25 @@ export default function IndexPage() {
           <h1 className=' relative text-[#22FFF4] shadow-sm font-bold text-[28px] text-center py-[4px] z-100'>Leaderboard</h1>
         </div>
 
-        <div className=' grow w-full overflow-auto '
+        <div className=' grow w-full overflow-auto px-7 '
+
         >
+          {isLoading && (<div className="w-full flex items-center justify-center">{spinner}</div>)}
+          {users?.map((user, index) => {
+            return (
+              < div key={index} className=" w-full flex h-[20px] my-1 justify-between">
+                <div className="w-40 flex ">
+                  <p className="w-12 ml-5 text-[#6580D8] font-semibold font-sans size=[19px]">{index + 1}</p>
+                  <p className="text-[#999999] font-sans text-[14px]">{user.firstName}</p>
+                  <p className=" ml-1 text-[#999999] font-sans text-[14px]">{user.lastName}</p>
+                </div>
+
+
+                <p className="text-white font-sans font-normal text-[15px]">{user.point}</p>
+
+              </div>
+            )
+          })}
         </div>
       </div>
       <div className='bg-[#181818] bg-opacity-[0.18] shadow-referralLink rounded-full h-[42px]  mt-[22px] mx-[40px]'>
