@@ -7,9 +7,9 @@ export default async function IndexPage() {
   const id = nanoid()
 
   return (
-    <div className='flex flex-col w-full h-full'>
-      <Chat id={id} />
-    </div>
+    // <div className='flex flex-col w-full h-full'>
+    <Chat id={id} />
+    // </div>
     // <AI initialAIState={{ chatId: id, messages: [] }} >
     //   <div className='flex flex-col w-full h-full'>
     //     <Chat id={id} />

@@ -80,9 +80,9 @@ export function Chat({ id, className, session }: ChatProps) {
   }
 
   return (
-    <div className='relative flex flex-col h-full bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]'>
+    <div className='relative flex flex-col h-[calc(100vh_-_82px)] bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]'>
       <h1 className='w-full  h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>MachinaFi</h1>
-      <div className=' grow w-full overflow-auto '
+      <div className='w-full h-full overflow-y-scroll '
         ref={scrollRef}>
         <ButtonScrollToBottom
           isAtBottom={isAtBottom}
@@ -102,7 +102,7 @@ export function Chat({ id, className, session }: ChatProps) {
           <div className="w-full h-px" ref={visibilityRef} />
         </div>
       </div>
-      <div className=' pr-5 pl-6 bottom-0 w-full'>
+      <div className='absolute pr-5 pl-6 bottom-0 w-full'>
         {user ? (<ChatPanel
           id={id}
           input={input}
