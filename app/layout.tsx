@@ -54,7 +54,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       </head> */}
       <body
         className={cn(
-          `font-sans antialiased `,
+          `font-sans antialiased overflow-hidden`,
           // GeistSans.variable,
           // GeistMono.variable
         )}

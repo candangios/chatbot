@@ -50,20 +50,14 @@ export const AuthProvider = ({ children }: any) => {
   const [access_token, setAccess_token] = useState<string | null>(null);
   const [isCheckedUser, setIsCheckedUser] = useState(false)
 
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if (!isCheckedUser) {
-  //     Cookies.get('access_token', data.access_token, { expires: 1 });
-  //   }
-  // }, [])
-  // useEffect(() => {
-  //   // Check if the token exists
-  //   const token = Cookies.get('access_token');
-  //   if (token) {
-  //     setAccess_token(token)
-  //     // fetchUser(token);
-  //   }
-  // }, []);
+
+  useEffect(() => {
+    // Check if the token exists
+    const token = Cookies.get('access_token');
+    if (token) {
+      setAccess_token(token)
+    }
+  }, []);
 
   useEffect(() => {
     if (!user && access_token) {
