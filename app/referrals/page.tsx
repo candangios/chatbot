@@ -14,15 +14,20 @@ import { set } from "zod"
 
 export default function IndexPage() {
   const { user, access_token } = useAuth()
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [users, setUsers] = useState<[User] | null>(null)
 
   const INVITE_URL = 'https://t.me/referral_showcase_bot/start'
 
   const handleCoppyLink = () => {
-    const inviteLink = `${INVITE_URL}?startapp=${user?.telegramId}`
-    navigator.clipboard.writeText(inviteLink)
-    toast('Invite link copied to clipboard')
+    if (users) {
+      const inviteLink = `${INVITE_URL}?startapp=${user?.telegramId}`
+      navigator.clipboard.writeText(inviteLink)
+      toast('Invite link copied to clipboard')
+    } else {
+      toast('please use webview telegram')
+    }
+
   }
   useEffect(() => {
     if (access_token) {
@@ -44,6 +49,7 @@ export default function IndexPage() {
       setUsers(data.data)
 
     } catch (error) {
+      setIsLoading(false)
       console.error('Error get leader board:', error);
     }
   };
