@@ -1,6 +1,9 @@
 'use client'
 
+import { IconLeaderboard } from "@/components/ui/icons"
+import { BASE_URL } from "@/config"
 import { useAuth } from "@/lib/hooks/use-auth"
+import Image from "next/image"
 import { use } from "react"
 
 
@@ -13,10 +16,29 @@ export default function IndexPage() {
     alert('Invite link copied to clipboard')
   }
 
+  // Hàm đăng nhập
+  const getLeaderboard = async (token: string): Promise<void> => {
+    try {
+      const res = await fetch(`${BASE_URL}/telegram/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      const responeJson = await res.json();
+    } catch (error) {
+      console.error('Error get leader board:', error);
+    }
+  };
+
   return (
     <div className=' flex flex-col w-full h-full'>
-      <div className=' flex flex-col w-full h-full bg-[#ffffff] bg-opacity-[0.03] rounded-[48px] shadow-inner'>
-        <h1 className='w-full  h-[75px] text-[#22FFF4] shadow-sm font-bold text-[28px] text-center py-6'>Leadboard</h1>
+      <div className=' flex flex-col w-full h-full bg-[#ffffff] bg-opacity-[0.03] rounded-[48px] shadow-referralLinkBg'>
+        <div className="relative -full  h-[65px] mt-5">
+          <Image className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0" src='./leaderboard.svg' width={177} height={55} alt="" />
+          <h1 className=' relative text-[#22FFF4] shadow-sm font-bold text-[28px] text-center py-[4px] z-100'>Leaderboard</h1>
+        </div>
+
         <div className=' grow w-full overflow-auto '
         >
         </div>
@@ -25,9 +47,5 @@ export default function IndexPage() {
         <p>{`${INVITE_URL}?startapp=${user?.telegramId}`}</p>
       </div>
     </div>
-
-
   )
-
-
 }

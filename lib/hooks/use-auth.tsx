@@ -1,8 +1,10 @@
 
 'use client'
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, use } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import { set } from 'zod';
+import { BASE_URL } from '@/config';
 
 // Định nghĩa kiểu dữ liệu cho người dùng
 interface User {
@@ -20,6 +22,7 @@ interface AuthContextProps {
   user: User | null;
   auth: (initData: string, referrer?: string) => Promise<void>;
   logout: () => void;
+  access_token: string | null;
   isAuthenticated: boolean;
 }
 
@@ -27,7 +30,7 @@ interface AuthResponse {
   access_token: string;
   user: User;
 }
-const BASE_URL = 'https://api.chatgm.com/api'
+
 
 // Tạo context để quản lý trạng thái người dùng
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -45,12 +48,17 @@ export const useAuth = (): AuthContextProps => {
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<User | null>(null);
   const [access_token, setAccess_token] = useState<string | null>(null);
-
+  const [isCheckedUser, setIsCheckedUser] = useState(false)
 
   // const router = useRouter();
+  // useEffect(() => {
+  //   if (!isCheckedUser) {
+  //     Cookies.get('access_token', data.access_token, { expires: 1 });
+  //   }
+  // }, [])
 
   useEffect(() => {
-    if (access_token) {
+    if (!user && access_token) {
       fetchUser(access_token);
     }
   }, [access_token]);
@@ -71,15 +79,16 @@ export const AuthProvider = ({ children }: any) => {
 
       // Lưu access_token vào cookies
       if (data.access_token) {
-        // Cookies.set('access_token', data.access_token, { expires: 1 });
+        Cookies.set('access_token', data.access_token, { expires: 1 });
         setAccess_token(data.access_token)
-        // setUser(data.user);
+        setUser(data.user);
         // router.push('/dashboard');
       }
     } catch (error) {
       console.error('Error logging in:', error);
     }
   };
+
 
   // Hàm đăng xuất
   const logout = (): void => {
@@ -108,7 +117,7 @@ export const AuthProvider = ({ children }: any) => {
 
 
   return (
-    <AuthContext.Provider value={{ user, auth, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, auth, logout, access_token, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   )

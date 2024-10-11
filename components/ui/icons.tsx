@@ -197,6 +197,14 @@ function IconUser({ className, ...props }: React.ComponentProps<'svg'>) {
     </svg>
   )
 }
+function IconLeaderboard({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg width="200" height="33" viewBox="0 0 200 33" fill="none" xmlns="http://www.w3.org/2000/svg" className={cn('size-4', className)}
+      {...props}>
+      <path d="M7.99985 20.2497C16.7239 18.7763 31.9929 16.3212 41.2069 15.1226C47.4572 14.3096 58.9445 12.6742 63.6045 12.0713C76.6258 10.3867 86.7068 8.73905 87.7465 10.0211C88.7861 11.3032 80.5492 14.6379 74.1715 17.0469C69.9982 18.6232 53.8482 25.2621 57.3494 25.1671C98.0789 20.6366 157.439 11.4712 192.353 7.49089" stroke="#1F5AA6" stroke-width="15" stroke-linecap="round" />
+    </svg>
+  )
+}
 
 function IconPlus({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
@@ -497,5 +505,6 @@ export {
   IconShare,
   IconUsers,
   IconExternalLink,
-  IconChevronUpDown
+  IconChevronUpDown,
+  IconLeaderboard
 }
