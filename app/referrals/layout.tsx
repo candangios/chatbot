@@ -6,7 +6,7 @@ interface ReferralsLayouttProps {
 const ReferralsLayout
   = ({ children }: ReferralsLayouttProps) => {
     return (
-      <div className="elative mx-6 pt-5 flex h-[calc(100vh_-_82px)] overflow-hidden" >
+      <div className="elative mx-1 pt-5 flex h-[calc(100vh_-_82px)] overflow-hidden" >
         {/* <SidebarDesktop /> */}
         {children}
 

@@ -14,6 +14,9 @@ import BottomNav from '@/components/bottom-nav'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
 import { AuthProvider } from '@/lib/hooks/use-auth'
 import { AI } from '@/lib/chat/actions'
+import { Outfit, Open_Sans } from 'next/font/google'
+const outfit = Outfit({ subsets: ['latin'] })
+const open_Sans = Open_Sans({ subsets: ['latin'] })
 
 export const metadata = {
   metadataBase: process.env.VERCEL_URL
@@ -45,13 +48,13 @@ interface RootLayoutProps {
 export default async function RootLayout({ children }: RootLayoutProps) {
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${open_Sans.className}`}>
       {/* <head>
         <Script src='https://telegram.org/js/telegram-web-app.js' strategy='beforeInteractive' />
       </head> */}
       <body
         className={cn(
-          'font-sans antialiased',
+          `font-sans antialiased `,
           // GeistSans.variable,
           // GeistMono.variable
         )}

@@ -46,8 +46,10 @@ export function BotMessage({
         {/* <IconOpenAI /> */}
       </div>
       <div className='flex flex-col'>
-        <div className="ml-4 flex-1 space-y-2 overflow-hidden rounded-md border border-[#CCCCCC] bg-[#E6E6E6] px-5 py-4" >
-          <MemoizedReactMarkdown
+        <div className="ml-4 text-sm flex-1 text-[#0C0D0E] space-y-2 overflow-hidden rounded-md border border-[#CCCCCC] bg-[#E6E6E6] px-5 py-4" >
+          {content.toString()}
+
+          {/* <MemoizedReactMarkdown
             className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
             remarkPlugins={[remarkGfm, remarkMath]}
             components={{
@@ -87,10 +89,10 @@ export function BotMessage({
             }}
           >
             {text}
-          </MemoizedReactMarkdown>
+          </MemoizedReactMarkdown> */}
 
         </div>
-        <div className='px-5'>
+        <div className="ml-4 text-xs text-[#393E46]">
           {children}
         </div>
       </div>

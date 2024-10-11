@@ -2,11 +2,13 @@
 
 import { spinner } from "@/components/stocks"
 import { SpinnerMessage } from "@/components/stocks/message"
+import { Button } from "@/components/ui/button"
 import { IconLeaderboard } from "@/components/ui/icons"
 import { BASE_URL } from "@/config"
 import { useAuth, User } from "@/lib/hooks/use-auth"
 import Image from "next/image"
 import { use, useEffect, useState } from "react"
+import { toast } from "sonner"
 import { set } from "zod"
 
 
@@ -16,10 +18,11 @@ export default function IndexPage() {
   const [users, setUsers] = useState<[User] | null>(null)
 
   const INVITE_URL = 'https://t.me/referral_showcase_bot/start'
+
   const handleCoppyLink = () => {
     const inviteLink = `${INVITE_URL}?startapp=${user?.telegramId}`
     navigator.clipboard.writeText(inviteLink)
-    alert('Invite link copied to clipboard')
+    toast('Invite link copied to clipboard')
   }
   useEffect(() => {
     if (access_token) {
@@ -45,6 +48,7 @@ export default function IndexPage() {
     }
   };
 
+
   return (
     <div className=' flex flex-col w-full h-full'>
       <div className=' flex flex-col w-full h-full bg-[#ffffff] bg-opacity-[0.03] rounded-[48px] shadow-referralLinkBg'>
@@ -61,7 +65,7 @@ export default function IndexPage() {
             return (
               < div key={index} className=" w-full flex h-[20px] my-1 justify-between">
                 <div className="w-40 flex ">
-                  <p className="w-12 ml-5 text-[#6580D8] font-semibold font-sans size=[19px]">{index + 1}</p>
+                  <p className="w-12 ml-5 text-[#6580D8] font-outfit font-semibold  size=[19px]">{index + 1}</p>
                   <p className="text-[#999999] font-sans text-[14px]">{user.firstName}</p>
                   <p className=" ml-1 text-[#999999] font-sans text-[14px]">{user.lastName}</p>
                 </div>
@@ -74,9 +78,13 @@ export default function IndexPage() {
           })}
         </div>
       </div>
-      <div className='bg-[#181818] bg-opacity-[0.18] shadow-referralLink rounded-full h-[42px]  mt-[22px] mx-[40px]'>
+      <Button onClick={handleCoppyLink} className='flex justify-between bg-[#181818] bg-opacity-[0.18] shadow-referralLink rounded-full h-[48px]  mt-[22px] mx-9'>
+        <p className="text-white text-[12px]">REFERRAL LINKS</p>
+        <Image src='./codeReferral.svg' width={24} height={24} alt="" />
+      </Button>
+      {/* <div className='bg-[#181818] bg-opacity-[0.18] shadow-referralLink rounded-full h-[42px]  mt-[22px] mx-[40px]'>
         <p>{`${INVITE_URL}?startapp=${user?.telegramId}`}</p>
-      </div>
+      </div> */}
     </div>
   )
 }

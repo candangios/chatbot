@@ -109,9 +109,10 @@ export function Chat({ id, className, session }: ChatProps) {
           isAtBottom={isAtBottom}
           scrollToBottom={scrollToBottom}
         />) : (<>
-          <Button className='mx-auto' onClick={authenticateUser}>
-            Join
+          <Button onClick={authenticateUser} className='flex justify-between bg-[#606069] w-full shadow-inputText rounded-full h-[48px]  mt-[22px] mb-2'>
+            <p className="text-white w-full text-center text-[12px]">JOIN</p>
           </Button>
+
         </>)}
 
       </div>
