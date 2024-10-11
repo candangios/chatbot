@@ -72,10 +72,10 @@ export function Chat({ id, className, session }: ChatProps) {
 
       }
     } else {
-      // toast('please use webview telegram')
+      toast('please use webview telegram')
       // auth('user=%7B%22id%22%3A692302440%2C%22first_name%22%3A%22ToTheMoon%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22CanDang1707%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=-96176797667967538&chat_type=private&auth_date=1728445979&hash=f43ecb78146611c03ca188763547bcb03c75a98814058c3b516a6ee600b6e8d0')
 
-      auth('user=%7B%22id%22%3A7318407034%2C%22first_name%22%3A%22Anh%22%2C%22last_name%22%3A%22Ki%E1%BB%81u%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=5219902035523301637&chat_type=private&auth_date=1728441931&hash=b6d82c55099970f3a98c829d228946be54876ee1c26f108a925a04282a386b75', '692302440')
+      // auth('user=%7B%22id%22%3A7318407034%2C%22first_name%22%3A%22Anh%22%2C%22last_name%22%3A%22Ki%E1%BB%81u%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=5219902035523301637&chat_type=private&auth_date=1728441931&hash=b6d82c55099970f3a98c829d228946be54876ee1c26f108a925a04282a386b75', '692302440')
     }
   }
 
