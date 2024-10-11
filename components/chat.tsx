@@ -103,14 +103,8 @@ export function Chat({ id, className, session }: ChatProps) {
         </div>
       </div>
       <div className='absolute pr-5 pl-6 bottom-0 w-full'>
-        <ChatPanel
-          id={id}
-          input={input}
-          setInput={setInput}
-          isAtBottom={isAtBottom}
-          scrollToBottom={scrollToBottom}
-        />
-        {/* {user ? (<ChatPanel
+
+        {user ? (<ChatPanel
           id={id}
           input={input}
           setInput={setInput}
@@ -121,7 +115,7 @@ export function Chat({ id, className, session }: ChatProps) {
             <p className="text-white w-full text-center text-[12px]">JOIN</p>
           </Button>
 
-        </>)} */}
+        </>)}
 
       </div>
 
