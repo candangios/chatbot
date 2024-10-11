@@ -17,7 +17,7 @@ export default function IndexPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [users, setUsers] = useState<[User] | null>(null)
 
-  const INVITE_URL = 'https://t.me/referral_showcase_bot/start'
+  const INVITE_URL = 'http://t.me/MachinaFi_bot/AIbot/start'
 
   const handleCoppyLink = () => {
     if (users) {
