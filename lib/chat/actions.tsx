@@ -36,6 +36,7 @@ import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { Chat, Message } from '@/lib/types'
 
 import axios from 'axios'
+import { BASE_URL } from '@/config'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -90,9 +91,8 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
         {
           id: nanoid(),
           role: 'system',
-          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${
-            amount * price
-          }]`
+          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${amount * price
+            }]`
         }
       ]
     })
@@ -107,7 +107,7 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
   }
 }
 
-async function submitUserMessage(content: string) {
+async function submitUserMessage(content: string, access_token: string) {
   'use server'
 
   const aiState = getMutableAIState<typeof AI>()
@@ -132,9 +132,13 @@ async function submitUserMessage(content: string) {
     const startTime = Date.now()
     axios
       .post(
-        'https://api.chatgm.com/api/ai/messages',
+        `${BASE_URL}/telegram/prompt`,
         { message: content },
-        { timeout: 100000 }
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          }
+        }
       )
       .then(response => {
         textStream.done(
@@ -171,7 +175,46 @@ async function submitUserMessage(content: string) {
         })
       })
       .catch(error => {
-        textStream.done(<p>error</p>)
+        // Handle the error properly
+        let msg = ''
+        if (axios.isAxiosError(error)) {
+          // Error is an AxiosError
+          msg = error.message
+          console.error('Axios error occurred:', error.message);
+
+          // Access additional error details
+          if (error.response) {
+            msg = error.response.data.message
+            console.error('Response data:', error.response.data);
+            console.error('Response status:', error.response.status);
+          } else if (error.request) {
+            msg = error.request
+            console.error('No response received:', error.request);
+          } else {
+            msg = error.message
+            console.error('Error setting up the request:', error.message);
+          }
+        } else {
+          // Handle other types of errors (non-Axios errors)
+          msg = `${error}`
+          console.error('An unexpected error occurred:', error);
+        }
+        textStream.done(
+          <BotMessage content={msg}>
+
+          </BotMessage>
+        )
+        aiState.done({
+          ...aiState.get(),
+          messages: [
+            ...aiState.get().messages,
+            {
+              id: nanoid(),
+              role: 'assistant',
+              content: msg
+            }
+          ]
+        })
       })
   })
   return {

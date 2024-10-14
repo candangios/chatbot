@@ -18,6 +18,7 @@ import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
 import { Input } from './ui/input'
+import { useAuth } from '@/lib/hooks/use-auth'
 
 export function PromptForm({
   input,
@@ -31,6 +32,7 @@ export function PromptForm({
   const inputRef = React.useRef<HTMLInputElement>(null)
   const { submitUserMessage } = useActions()
   const [_, setMessages] = useUIState<typeof AI>()
+  const { access_token } = useAuth()
 
   React.useEffect(() => {
     if (inputRef.current) {
@@ -63,7 +65,7 @@ export function PromptForm({
         ])
 
         // Submit and get response message
-        const responseMessage = await submitUserMessage(value)
+        const responseMessage = await submitUserMessage(value, access_token)
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >
