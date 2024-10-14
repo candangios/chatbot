@@ -57,9 +57,11 @@ export const AuthProvider = ({ children }: any) => {
     if (token) {
       setAccess_token(token)
     }
+
   }, []);
 
   useEffect(() => {
+    // console.log('cheking2')
     if (!user && access_token) {
       fetchUser(access_token);
     }
@@ -71,23 +73,23 @@ export const AuthProvider = ({ children }: any) => {
       const res = await fetch(`${BASE_URL}/auth/telegram`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'content-Type': 'application/json',
         },
         body: JSON.stringify({ initData, referrer }),
       });
 
       const responeJson = await res.json();
       const data: AuthResponse = responeJson.data
-
       // Lưu access_token vào cookies
       if (data.access_token) {
-        Cookies.set('access_token', data.access_token, { expires: 1 });
+        Cookies.set('access_token', data.access_token, { expires: 30 });
         setAccess_token(data.access_token)
         setUser(data.user);
-        // router.push('/dashboard');
+        Cookies.set('telegramId', data.user.telegramId, { expires: 30 });
       }
     } catch (error) {
       console.error('Error logging in:', error);
+      throw error
     }
   };
 

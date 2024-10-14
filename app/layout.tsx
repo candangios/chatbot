@@ -8,7 +8,6 @@ import { Providers } from '@/components/providers'
 import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
 import Script from 'next/script'
-import { getSession } from '@/utils/session'
 import TelegramAuth from '@/components/TelegramAuth'
 import BottomNav from '@/components/bottom-nav'
 import MaxWidthWrapper from '@/components/max-width-wrapper'
@@ -20,13 +19,13 @@ const open_Sans = Open_Sans({ subsets: ['latin'] })
 
 export const metadata = {
   metadataBase: process.env.VERCEL_URL
-    ? new URL(`https://${process.env.VERCEL_URL}`)
+    ? new URL(`https://telegram.1chain.ai/`)
     : undefined,
   title: {
-    default: '1chain.ai mini app',
-    template: `%s - Next.js AI Chatbot`
+    default: 'MachinaFi mini app',
+    template: ``
   },
-  description: 'An AI-powered chatbot template built with Next.js and Vercel.',
+  description: 'Simplify web 3 mass adoption with AI.',
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',

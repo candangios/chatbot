@@ -63,14 +63,18 @@ export function Chat({ id, className, session }: ChatProps) {
     const initData = WebApp.initData
     setReferrer(WebApp.initDataUnsafe.start_param || null)
     if (initData) {
-      toast(initData)
+
       try {
         if (referrer) {
           auth(initData, referrer)
         } else { auth(initData) }
 
-      } catch (error) {
-
+      } catch (e) {
+        if (typeof e === "string") {
+          toast(e) // works, `e` narrowed to string
+        } else if (e instanceof Error) {
+          toast(e.message)
+        }
       }
     } else {
       toast('please use webview telegram')
