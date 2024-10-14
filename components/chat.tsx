@@ -63,6 +63,7 @@ export function Chat({ id, className, session }: ChatProps) {
     const initData = WebApp.initData
     setReferrer(WebApp.initDataUnsafe.start_param || null)
     if (initData) {
+      toast(initData)
       try {
         if (referrer) {
           auth(initData, referrer)
