@@ -65,9 +65,10 @@ export function Chat({ id, className, session }: ChatProps) {
     if (initData) {
       try {
         if (referrer) {
+          toast(referrer)
           auth(initData, referrer)
         } else {
-          auth(initData)
+          // auth(initData)
         }
       } catch (e) {
         if (typeof e === 'string') {
