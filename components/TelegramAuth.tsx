@@ -10,13 +10,13 @@ const TelegramAuth = () => {
   const [isAuthentication, setIsAuthentication] = useState(false)
   const [msgError, setmsgError] = useState('')
   const router = useRouter()
-  useEffect(() => {}, [])
+  useEffect(() => { }, [])
 
   const checkAuth = async () => {
-    const response = await fetch('/api/sesstion')
-    if (response.ok) {
-      setIsAuthentication(true)
-    }
+    // const response = await fetch('/api/sesstion')
+    // if (response.ok) {
+    //   setIsAuthentication(true)
+    // }
   }
   const authenticateUser = async () => {
     const WebApp = (await import('@twa-dev/sdk')).default

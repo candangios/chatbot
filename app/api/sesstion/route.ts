@@ -5,6 +5,6 @@ export async function GET() {
   // if (sesstion) {
   //   return NextResponse.json({ isAuthenticated: true })
   // } else {
-  //   return NextResponse.json({ isAuthenticated: false }, { status: 401 })
+  return NextResponse.json({ isAuthenticated: false }, { status: 401 })
   // }
 }
