@@ -30,7 +30,16 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
             : 'bg-primary text-primary-foreground'
         )}
       >
-        {message.role === 'user' ? <IconUser /> : <Image src='images/ChatBotAvatar.png' width={24} height={24} alt='Chatbot Icon' />}
+        {message.role === 'user' ? (
+          <IconUser />
+        ) : (
+          <Image
+            src="images/ChatBotAvatar.png"
+            width={24}
+            height={24}
+            alt="Chatbot Icon"
+          />
+        )}
       </div>
       <div className="flex-1 px-1 ml-4 space-y-2 overflow-hidden">
         <MemoizedReactMarkdown

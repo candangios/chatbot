@@ -90,8 +90,9 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
         {
           id: nanoid(),
           role: 'system',
-          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${amount * price
-            }]`
+          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${
+            amount * price
+          }]`
         }
       ]
     })
@@ -123,53 +124,63 @@ async function submitUserMessage(content: string) {
     ]
   })
   function getRandomArbitrary(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
-  const textStream = createStreamableUI(
-    <SpinnerMessage />
-  )
+  const textStream = createStreamableUI(<SpinnerMessage />)
   runAsyncFnWithoutBlocking(async () => {
     const startTime = Date.now()
-    axios.post('https://api.chatgm.com/api/ai/messages', { message: content }, { timeout: 100000 }).then((response) => {
-      textStream.done(
-        <div className='flex flex-col'>
-          <BotMessage content={response.data.data.message} children={<p className=''>This result is getting <span className='text-[#0045C6]'>{Number(response.data.data.accuraty).toFixed(1)}%</span> + consensus from <>{(Date.now() - startTime) / 1000}</> times running of <>{response.data.data.nodes}</> notes in <>{getRandomArbitrary(5, 14)}</> LLMs</p>}>
-          </BotMessage>
-          {/* <div className='pl-10'>
+    axios
+      .post(
+        'https://api.chatgm.com/api/ai/messages',
+        { message: content },
+        { timeout: 100000 }
+      )
+      .then(response => {
+        textStream.done(
+          <div className="flex flex-col">
+            <BotMessage
+              content={response.data.data.message}
+              children={
+                <p className="">
+                  This result is getting{' '}
+                  <span className="text-[#0045C6]">
+                    {Number(response.data.data.accuraty).toFixed(1)}%
+                  </span>{' '}
+                  + consensus from <>{(Date.now() - startTime) / 1000}</> times
+                  running of <>{response.data.data.nodes}</> notes in{' '}
+                  <>{getRandomArbitrary(5, 14)}</> LLMs
+                </p>
+              }
+            ></BotMessage>
+            {/* <div className='pl-10'>
 
           </div> */}
-
-        </div>
-      )
-      aiState.done({
-        ...aiState.get(),
-        messages: [
-          ...aiState.get().messages,
-          {
-            id: nanoid(),
-            role: 'assistant',
-            content: response.data.data.message
-          }
-        ]
+          </div>
+        )
+        aiState.done({
+          ...aiState.get(),
+          messages: [
+            ...aiState.get().messages,
+            {
+              id: nanoid(),
+              role: 'assistant',
+              content: response.data.data.message
+            }
+          ]
+        })
       })
-    }).catch(error => {
-      textStream.done(
-        <p>error</p>
-      )
-    })
-
+      .catch(error => {
+        textStream.done(<p>error</p>)
+      })
   })
   return {
     id: nanoid(),
     display: textStream.value
   }
 
-
   // let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   // let textNode: undefined | React.ReactNode
-
-
 
   // const result = await streamUI({
   //   model: openai('gpt-3.5-turbo'),
@@ -523,7 +534,6 @@ async function submitUserMessage(content: string) {
   //   }
   // })
 
-
   // return {
   //   id: nanoid(),
   //   display: result.value
@@ -563,7 +573,6 @@ export const AI = createAI<AIState, UIState>({
   //   // } else {
   //   //   return
   //   // }
-
 
   // },
   onSetAIState: async ({ state, done }) => {
@@ -627,13 +636,12 @@ export const getUIStateFromAIState = (aiState: Chat) => {
         //       </BotCard>
         //     ) : null
         //   })
-        // ) : 
+        // ) :
         message.role === 'user' ? (
           <UserMessage>{message.content as string}</UserMessage>
         ) : message.role === 'assistant' &&
           typeof message.content === 'string' ? (
-
-          <div className='flex flex-col'>
+          <div className="flex flex-col">
             <BotMessage content={message.content} />
           </div>
         ) : null

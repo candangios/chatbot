@@ -45,15 +45,18 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-
   return (
-    <html lang="en" suppressHydrationWarning className={`${open_Sans.className}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${open_Sans.className}`}
+    >
       {/* <head>
         <Script src='https://telegram.org/js/telegram-web-app.js' strategy='beforeInteractive' />
       </head> */}
       <body
         className={cn(
-          `font-sans antialiased overflow-hidden`,
+          `font-sans antialiased overflow-hidden`
           // GeistSans.variable,
           // GeistMono.variable
         )}
@@ -74,19 +77,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <AI>
               <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#000000] to[#00E2E2] via-50%  bg-black bg-opacity-15  ">
                 <MaxWidthWrapper>
-                  <main>
-                    {children}
-                  </main>
+                  <main>{children}</main>
                 </MaxWidthWrapper>
                 <BottomNav />
               </div>
               <TailwindIndicator />
             </AI>
-
           </AuthProvider>
-
-
-
         </Providers>
       </body>
     </html>

@@ -49,14 +49,12 @@ import { Session } from '@/lib/types'
 
 export function Header() {
   return (
-    <header className='sticky botom-0 z-50  bg-[#393E46] w-full h-16 flex items-center justify-center '>
-      <div className='w-full max-w-[800px] flex items-center justify-between '>
-        <h1 className='text-white' >CryptoBot.chat</h1>
+    <header className="sticky botom-0 z-50  bg-[#393E46] w-full h-16 flex items-center justify-center ">
+      <div className="w-full max-w-[800px] flex items-center justify-between ">
+        <h1 className="text-white">CryptoBot.chat</h1>
         <div>
           <IconGitHub />
         </div>
-
-
       </div>
     </header>
   )

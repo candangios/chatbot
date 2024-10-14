@@ -20,7 +20,6 @@ export function UserMessage({ children }: { children: React.ReactNode }) {
         <IconUser />
       </div>
       <div className="flex-1 space-y-2 overflow-hidden pl-2 text-[#0C0D0E] ml-8 py-2">
-
         {children}
       </div>
     </div>
@@ -30,8 +29,7 @@ export function UserMessage({ children }: { children: React.ReactNode }) {
 export function BotMessage({
   content,
   className,
-  children,
-
+  children
 }: {
   content: string | StreamableValue<string>
   className?: string
@@ -42,11 +40,16 @@ export function BotMessage({
   return (
     <div className={cn('group relative flex items-start ', className)}>
       <div className="flex size-[32px] shrink-0 select-none items-center justify-center rounded-full  bg-primary text-primary-foreground shadow-sm">
-        <Image src='/images/ChatBotAvatar.png' alt='chat bot' width={32} height={32} />
+        <Image
+          src="/images/ChatBotAvatar.png"
+          alt="chat bot"
+          width={32}
+          height={32}
+        />
         {/* <IconOpenAI /> */}
       </div>
-      <div className='flex flex-col'>
-        <div className="ml-4 text-sm flex-1 text-[#0C0D0E] space-y-2 overflow-hidden rounded-md border border-[#CCCCCC] bg-[#E6E6E6] px-5 py-4" >
+      <div className="flex flex-col">
+        <div className="ml-4 text-sm flex-1 text-[#0C0D0E] space-y-2 overflow-hidden rounded-md border border-[#CCCCCC] bg-[#E6E6E6] px-5 py-4">
           {content.toString()}
 
           {/* <MemoizedReactMarkdown
@@ -90,13 +93,9 @@ export function BotMessage({
           >
             {text}
           </MemoizedReactMarkdown> */}
-
         </div>
-        <div className="ml-4 text-xs text-[#393E46]">
-          {children}
-        </div>
+        <div className="ml-4 text-xs text-[#393E46]">{children}</div>
       </div>
-
     </div>
   )
 }
@@ -139,7 +138,12 @@ export function SpinnerMessage() {
   return (
     <div className="group relative flex items-start ">
       <div className="flex size-[32px] shrink-0 select-none items-center justify-center rounded-full  bg-primary text-primary-foreground shadow-sm">
-        <Image src='/images/ChatBotAvatar.png' alt='chat bot' width={32} height={32} />
+        <Image
+          src="/images/ChatBotAvatar.png"
+          alt="chat bot"
+          width={32}
+          height={32}
+        />
         {/* <IconOpenAI /> */}
       </div>
       <div className="ml-4 h-[24px] flex flex-row items-center flex-1 space-y-2 overflow-hidden px-1">

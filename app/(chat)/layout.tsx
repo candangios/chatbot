@@ -5,12 +5,5 @@ interface ChatLayoutProps {
 }
 
 export default async function ChatLayout({ children }: ChatLayoutProps) {
-  return (
-    <>
-      {children}
-    </>
-
-
-
-  )
+  return <>{children}</>
 }

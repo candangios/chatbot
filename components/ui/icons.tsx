@@ -199,9 +199,21 @@ function IconUser({ className, ...props }: React.ComponentProps<'svg'>) {
 }
 function IconLeaderboard({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
-    <svg width="200" height="33" viewBox="0 0 200 33" fill="none" xmlns="http://www.w3.org/2000/svg" className={cn('size-4', className)}
-      {...props}>
-      <path d="M7.99985 20.2497C16.7239 18.7763 31.9929 16.3212 41.2069 15.1226C47.4572 14.3096 58.9445 12.6742 63.6045 12.0713C76.6258 10.3867 86.7068 8.73905 87.7465 10.0211C88.7861 11.3032 80.5492 14.6379 74.1715 17.0469C69.9982 18.6232 53.8482 25.2621 57.3494 25.1671C98.0789 20.6366 157.439 11.4712 192.353 7.49089" stroke="#1F5AA6" stroke-width="15" stroke-linecap="round" />
+    <svg
+      width="200"
+      height="33"
+      viewBox="0 0 200 33"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={cn('size-4', className)}
+      {...props}
+    >
+      <path
+        d="M7.99985 20.2497C16.7239 18.7763 31.9929 16.3212 41.2069 15.1226C47.4572 14.3096 58.9445 12.6742 63.6045 12.0713C76.6258 10.3867 86.7068 8.73905 87.7465 10.0211C88.7861 11.3032 80.5492 14.6379 74.1715 17.0469C69.9982 18.6232 53.8482 25.2621 57.3494 25.1671C98.0789 20.6366 157.439 11.4712 192.353 7.49089"
+        stroke="#1F5AA6"
+        stroke-width="15"
+        stroke-linecap="round"
+      />
     </svg>
   )
 }
@@ -222,8 +234,17 @@ function IconPlus({ className, ...props }: React.ComponentProps<'svg'>) {
 
 function IconArrowElbow({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
-    <svg width="30" height="30" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1.83218 0.953079L18.8651 8.96466C19.7414 9.37682 19.7414 10.6233 18.8651 11.0354L1.83218 19.047C0.944945 19.4643 -0.021903 18.6454 0.243785 17.7016L2.41183 10L0.243784 2.29852C-0.0219036 1.35472 0.944945 0.535759 1.83218 0.953079Z" fill="#00D2C7" />
+    <svg
+      width="30"
+      height="30"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1.83218 0.953079L18.8651 8.96466C19.7414 9.37682 19.7414 10.6233 18.8651 11.0354L1.83218 19.047C0.944945 19.4643 -0.021903 18.6454 0.243785 17.7016L2.41183 10L0.243784 2.29852C-0.0219036 1.35472 0.944945 0.535759 1.83218 0.953079Z"
+        fill="#00D2C7"
+      />
     </svg>
   )
 }

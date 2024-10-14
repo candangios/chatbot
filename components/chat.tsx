@@ -63,14 +63,14 @@ export function Chat({ id, className, session }: ChatProps) {
     const initData = WebApp.initData
     setReferrer(WebApp.initDataUnsafe.start_param || null)
     if (initData) {
-
       try {
         if (referrer) {
           auth(initData, referrer)
-        } else { auth(initData) }
-
+        } else {
+          auth(initData)
+        }
       } catch (e) {
-        if (typeof e === "string") {
+        if (typeof e === 'string') {
           toast(e) // works, `e` narrowed to string
         } else if (e instanceof Error) {
           toast(e.message)
@@ -85,20 +85,17 @@ export function Chat({ id, className, session }: ChatProps) {
   }
 
   return (
-    <div className='relative flex flex-col h-[calc(100vh_-_102px)] bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]'>
-      <h1 className='w-full  h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6'>MachinaFi</h1>
-      <div className='w-full mb-[66px] overflow-y-scroll '
-        ref={scrollRef}>
+    <div className="relative flex flex-col h-[calc(100vh_-_102px)] bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]">
+      <h1 className="w-full  h-[75px] text-[#393E46] font-bold text-[28px] text-center py-6">
+        MachinaFi
+      </h1>
+      <div className="w-full mb-[66px] overflow-y-scroll " ref={scrollRef}>
         <ButtonScrollToBottom
           isAtBottom={isAtBottom}
           scrollToBottom={scrollToBottom}
         />
 
-
-        <div className={cn('', className)}
-          ref={messagesRef}
-
-        >
+        <div className={cn('', className)} ref={messagesRef}>
           {messages.length ? (
             <ChatList messages={messages} isShared={false} session={session} />
           ) : (
@@ -107,25 +104,26 @@ export function Chat({ id, className, session }: ChatProps) {
           <div className="w-full h-px" ref={visibilityRef} />
         </div>
       </div>
-      <div className='absolute pr-5 pl-6 bottom-0 w-full'>
-
-        {user ? (<ChatPanel
-          id={id}
-          input={input}
-          setInput={setInput}
-          isAtBottom={isAtBottom}
-          scrollToBottom={scrollToBottom}
-        />) : (<>
-          <Button onClick={authenticateUser} className='flex justify-between bg-[#606069] w-full shadow-inputText rounded-full h-[48px]  mt-[22px] mb-2'>
-            <p className="text-white w-full text-center text-[12px]">JOIN</p>
-          </Button>
-
-        </>)}
-
+      <div className="absolute pr-5 pl-6 bottom-0 w-full">
+        {user ? (
+          <ChatPanel
+            id={id}
+            input={input}
+            setInput={setInput}
+            isAtBottom={isAtBottom}
+            scrollToBottom={scrollToBottom}
+          />
+        ) : (
+          <>
+            <Button
+              onClick={authenticateUser}
+              className="flex justify-between bg-[#606069] w-full shadow-inputText rounded-full h-[48px]  mt-[22px] mb-2"
+            >
+              <p className="text-white w-full text-center text-[12px]">JOIN</p>
+            </Button>
+          </>
+        )}
       </div>
-
-
     </div>
-
   )
 }

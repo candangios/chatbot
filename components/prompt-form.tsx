@@ -112,11 +112,17 @@ export function PromptForm({
           name="message"
           // rows={1}
           value={input}
-          onChange={e => setInput(e.target.value)} />
+          onChange={e => setInput(e.target.value)}
+        />
         <div className="right-0 top-[13px] sm:right-4">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button type="submit" variant='ghost' size="icon" disabled={input === ''}>
+              <Button
+                type="submit"
+                variant="ghost"
+                size="icon"
+                disabled={input === ''}
+              >
                 <IconArrowElbow />
                 <span className="sr-only">Send message</span>
               </Button>

@@ -1,33 +1,33 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 const useScrollingEffect = () => {
-  const [scrollDirection, setScrollDirection] = useState('down');
+  const [scrollDirection, setScrollDirection] = useState('down')
 
   useEffect(() => {
-    let prevScrollY = window.scrollY;
+    let prevScrollY = window.scrollY
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      const currentScrollY = window.scrollY
 
       if (currentScrollY > prevScrollY) {
-        setScrollDirection('down');
+        setScrollDirection('down')
       } else {
-        setScrollDirection('up');
+        setScrollDirection('up')
       }
 
-      prevScrollY = currentScrollY;
-    };
+      prevScrollY = currentScrollY
+    }
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
-  return scrollDirection;
-};
+  return scrollDirection
+}
 
-export default useScrollingEffect;
+export default useScrollingEffect

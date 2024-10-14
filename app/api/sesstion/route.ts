@@ -1,5 +1,5 @@
 // import { getSession } from "@/utils/session";
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
 export async function GET() {
   // const sesstion = await getSession()
   // if (sesstion) {
@@ -7,5 +7,4 @@ export async function GET() {
   // } else {
   //   return NextResponse.json({ isAuthenticated: false }, { status: 401 })
   // }
-
 }

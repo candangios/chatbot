@@ -1,18 +1,16 @@
 'use client'
 
-import { user } from "@telegram-apps/sdk/dist/dts/scopes/components/init-data/signals"
+import { user } from '@telegram-apps/sdk/dist/dts/scopes/components/init-data/signals'
 
-import { useRouter } from "next/navigation"
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { set } from "zod"
+import { set } from 'zod'
 
 const TelegramAuth = () => {
   const [isAuthentication, setIsAuthentication] = useState(false)
   const [msgError, setmsgError] = useState('')
   const router = useRouter()
-  useEffect(() => {
-
-  }, [])
+  useEffect(() => {}, [])
 
   const checkAuth = async () => {
     const response = await fetch('/api/sesstion')
@@ -37,7 +35,6 @@ const TelegramAuth = () => {
         //     body: JSON.stringify({ initData })
         //   })
 
-
         //   if (response.ok) {
         //     setIsAuthentication(true)
         //     router.refresh()
@@ -47,9 +44,7 @@ const TelegramAuth = () => {
         //     console.log('Authentication failed')
         //     setIsAuthentication(false)
         //   }
-
       } catch (error) {
-
         console.error('Authentication failed', error)
         setmsgError('Authentication failed')
         setIsAuthentication(false)
@@ -58,23 +53,24 @@ const TelegramAuth = () => {
   }
   return (
     <div className="flex flex-col items-center space-y-4 p8">
-      {msgError && (<>{msgError}</>)}
+      {msgError && <>{msgError}</>}
       {isAuthentication ? (
         <>
           <p>Authentication!</p>
-          <button onClick={() => router.push('/protected')}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button
+            onClick={() => router.push('/protected')}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
             Access Protected page
           </button>
-
         </>
       ) : (
         <>
-          <p>
-            you need to be an owner of this account
-          </p>
-          <button onClick={authenticateUser}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <p>you need to be an owner of this account</p>
+          <button
+            onClick={authenticateUser}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
             Authenticate
           </button>
         </>
