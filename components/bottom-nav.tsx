@@ -27,7 +27,7 @@ const BottomNav = () => {
           >
             <p
               className={cn(
-                'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-sans',
+                'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-outfit',
                 { 'text-[#FFFFFF]': isReferralsActive }
               )}
             >
@@ -43,7 +43,7 @@ const BottomNav = () => {
           >
             <p
               className={cn(
-                'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-sans',
+                'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-outfit',
                 { 'text-[#FFFFFF]': isHomeActive }
               )}
             >
@@ -59,7 +59,7 @@ const BottomNav = () => {
           >
             <p
               className={cn(
-                'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-sans',
+                'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-outfit',
                 { 'text-[#FFFFFF]': isMissionActive }
               )}
             >

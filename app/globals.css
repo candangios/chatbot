@@ -9,6 +9,6 @@
   }
 
   body {
-    @apply bg-gradient-to-r from-[#040B2F] to-[#333362] text-[#333362];
+    @apply font-sans bg-gradient-to-r from-[#040B2F] to-[#333362] text-[#0C0D0E];
   }
 }

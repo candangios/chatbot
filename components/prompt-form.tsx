@@ -69,7 +69,7 @@ export function PromptForm({
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >
-      <div className=" flex h-[66px] w-full grow flex-row items-center gap-3 overflow-hidden  ">
+      <div className=" flex h-[66px] w-full grow flex-row items-center overflow-hidden  ">
         {/* <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -91,7 +91,7 @@ export function PromptForm({
           tabIndex={0}
           onKeyDown={onKeyDown}
           placeholder="Ask me anything."
-          className="min-h-[32px] w-full resize-none bg-background rounded-full px-4 py-[1.3rem] focus-within:outline-none sm:text-sm text-white"
+          className=" w-full resize-none bg-[#606069] rounded-full px-4 py-[1.3rem] focus-within:outline-none shadow-inputText sm:text-sm text-white"
           autoFocus
           spellCheck={false}
           autoComplete="off"
@@ -104,19 +104,18 @@ export function PromptForm({
         <Input
           ref={inputRef}
           tabIndex={0}
-          // onKeyDown={onKeyDown}
+          onKeyDown={() => { onKeyDown }}
           placeholder="Ask me anything."
-          className="min-h-[32px] w-full resize-none bg-[#606069] font-sans text-[12px] rounded-full   px-4 py-[1.3rem] shadow-inputText text-white"
+          className=" w-full h-9 resize-none bg-[#606069] font-sans text-[12px] rounded-full   pl-4 py-[1.3rem] focus:outline-none shadow-inputText text-white"
           autoFocus
           spellCheck={false}
           autoComplete="off"
           autoCorrect="off"
           name="message"
-          // rows={1}
           value={input}
           onChange={e => setInput(e.target.value)}
         />
-        <div className="right-0 top-[13px] sm:right-4">
+        <div className="top-[13px]">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button

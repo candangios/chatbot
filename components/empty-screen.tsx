@@ -9,15 +9,11 @@ export function EmptyScreen() {
     <div className="mx-auto max-w-2xl px-4">
       <div className="flex flex-col gap-2 bg-[#E6E6E6] p-8">
         <h1 className="text-lg te font-semibold">
-          Welcome to 1Chain.AI Chatbot!
+          Welcome to MachinaFi Chatbot!
         </h1>
-        <p className="leading-normal text-black">
-          <ExternalLink href="https://1chain.ai/i">1chain.AIs</ExternalLink> is
-          a Web3 protocol that simplifies dApp onboarding with AI agents
-          boasting over 99% accuracy. Using a Decentralized AI Fidelity Network
-          (DAFN), it prevents AI hallucinations and ensures precise prompt
-          interpretation. Our goal is to build trust, lower barriers, and drive
-          crypto adoption.
+        <p className="leading-normal text-[12px]">
+          {/* <ExternalLink href="https://1chain.ai/i">1chain.AIs</ExternalLink> is */}
+          MachinaFI Agent Protocol (WAAP) is designed to embed AI assistants into dApps, enabling users to perform complex blockchain tasks through simple chat commands. These AI assistants use Large Language Models (LLMs) to create specialized AI models that can communicate with crypto infrastructures, protocols, and apps to execute tasks easily, securely, and efficiently for new users. These specialized models, known as Large Action Models (LAMs), revolutionize the user experience in the crypto space, making it incredibly straightforward and accessible, thus driving mass crypto adoption.
         </p>
       </div>
     </div>

@@ -18,17 +18,18 @@ module.exports = {
     },
     extend: {
       dropShadow: {
-        tabButton: '1px 3px 0px rgba(36, 255, 244, 1)'
+        tabButton: '1px 3px 0px rgba(36, 255, 244, 1)',
+        title: '1px 2px 0 rgba(0, 0, 0, 0.25)',
       },
       boxShadow: {
+
         inputText: 'inset 0 0px 16.9px rgba(31, 20, 85, 0.54)',
         referralLink: 'inset 0 0 24px rgba(0, 0, 0, 0.3)',
         referralLinkBg: 'inset 0 2.27px 2.27px rgba(255, 255, 255, 0.15),inset 0 0 34px rgba(255, 255, 255, 0.05) ',
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)'],
-        mono: ['var(--font-geist-mono)'],
-        outfit: ['var(--font-geist-outfit)']
+        sans: ['Open Sans', 'sans-serif'],
+        outfit: ['Outfit', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',

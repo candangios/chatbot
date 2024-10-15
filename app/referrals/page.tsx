@@ -24,7 +24,7 @@ export default function IndexPage() {
       navigator.clipboard.writeText(inviteLink)
       toast('Invite link copied to clipboard')
     } else {
-      toast('please use webview telegram')
+      toast('Please use webview in telegram.')
     }
   }
   useEffect(() => {
@@ -54,21 +54,22 @@ export default function IndexPage() {
   return (
     <div className=" flex flex-col w-full h-full">
       <div className=" flex flex-col w-full h-full bg-[#ffffff] bg-opacity-[0.03] rounded-[48px] shadow-referralLinkBg">
-        <div className="relative -full  h-[65px] mt-5">
+        <div className="relative -full  h-[65px] mt-[20px]">
           <Image
             className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0"
             src="./leaderboard.svg"
-            width={177}
+            width={200}
             height={55}
+
             priority={false}
             alt=""
           />
-          <h1 className=" relative text-[#22FFF4] shadow-sm font-bold text-[28px] text-center py-[4px] z-100">
+          <h1 className=" relative text-[#22FFF4] drop-shadow-title font-outfit font-bold text-[28px] text-center  z-100">
             Leaderboard
           </h1>
         </div>
 
-        <div className=" grow w-full overflow-auto px-7 ">
+        <div className=" grow w-full overflow-auto px-7 mt-[20px] ">
           {isLoading && (
             <div className="w-full flex items-center justify-center">
               {spinner}
@@ -81,7 +82,7 @@ export default function IndexPage() {
                 className=" w-full flex h-[20px] my-1 justify-between"
               >
                 <div className="w-40 flex ">
-                  <p className="w-12 ml-5 text-[#6580D8] font-outfit font-semibold  size=[19px]">
+                  <p className="w-12 ml-5 text-[#6580D8] font-outfit font-semibold  size=[15px]">
                     {index + 1}
                   </p>
                   <p className="text-[#999999] font-sans text-[14px]">
@@ -92,7 +93,7 @@ export default function IndexPage() {
                   </p>
                 </div>
 
-                <p className="text-white font-sans font-normal text-[15px]">
+                <p className="text-white font-sans font-normal text-[15px] mr-[20px]">
                   {user.point}
                 </p>
               </div>
@@ -102,7 +103,7 @@ export default function IndexPage() {
       </div>
       <Button
         onClick={handleCoppyLink}
-        className="flex justify-between bg-[#181818] bg-opacity-[0.18] shadow-referralLink rounded-full h-[48px]  mt-[22px] mx-9"
+        className="flex justify-between bg-[#181818] bg-opacity-[0.18] shadow-referralLink rounded-full h-[48px]  mt-[19px] mx-[40px]"
       >
         <p className="text-white text-[12px]">REFERRAL LINKS</p>
         <Image src="./codeReferral.svg" width={24} height={24} alt="" />

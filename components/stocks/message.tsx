@@ -19,7 +19,7 @@ export function UserMessage({ children }: { children: React.ReactNode }) {
       <div className="flex size-[32px] shrink-0 select-none items-center justify-center rounded-full  bg-background shadow-sm">
         <IconUser />
       </div>
-      <div className="flex-1 space-y-2 overflow-hidden pl-2 text-[#0C0D0E] ml-8 py-2">
+      <div className="flex-1 space-y-2 overflow-hidden pl-2 text-[12px] ml-4 py-2">
         {children}
       </div>
     </div>
@@ -49,7 +49,7 @@ export function BotMessage({
         {/* <IconOpenAI /> */}
       </div>
       <div className="flex flex-col">
-        <div className="ml-4 text-sm flex-1 text-[#0C0D0E] space-y-2 overflow-hidden rounded-md border border-[#CCCCCC] bg-[#E6E6E6] px-5 py-4">
+        <div className="ml-[4px] flex-1 text-[12px]  space-y-2 overflow-hidden rounded-[5px] border border-[#CCCCCC] bg-[#E6E6E6] px-[20px] py-[15px]">
           {content.toString()}
 
           {/* <MemoizedReactMarkdown
@@ -94,7 +94,7 @@ export function BotMessage({
             {text}
           </MemoizedReactMarkdown> */}
         </div>
-        <div className="ml-4 text-xs text-[#393E46]">{children}</div>
+        <div className="ml-1 mt-[2px] text-[8px]">{children}</div>
       </div>
     </div>
   )

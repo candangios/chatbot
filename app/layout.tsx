@@ -14,9 +14,16 @@ import MaxWidthWrapper from '@/components/max-width-wrapper'
 import { AuthProvider } from '@/lib/hooks/use-auth'
 import { AI } from '@/lib/chat/actions'
 import { Outfit, Open_Sans } from 'next/font/google'
-const outfit = Outfit({ subsets: ['latin'] })
-const open_Sans = Open_Sans({ subsets: ['latin'] })
+import Image from 'next/image'
+const openSans = Open_Sans({
+  weight: ['400', '600', '700'], // Specify the weights you want to use
+  subsets: ['latin'],  // You can include other subsets like 'latin-ext'
+});
 
+const outfit = Outfit({
+  weight: ['400', '500', '700'], // Specify the weights you want to use
+  subsets: ['latin'],
+});
 export const metadata = {
   metadataBase: process.env.VERCEL_URL
     ? new URL(`https://telegram.1chain.ai/`)
@@ -49,16 +56,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${open_Sans.className}`}
+      className={`${openSans.className} ${outfit.className}`}
     >
-      {/* <head>
-        <Script src='https://telegram.org/js/telegram-web-app.js' strategy='beforeInteractive' />
-      </head> */}
       <body
         className={cn(
-          `font-sans antialiased overflow-hidden`
-          // GeistSans.variable,
-          // GeistMono.variable
+          `font-sans antialiased overflow-hidden`,
+          GeistSans.variable,
+          GeistMono.variable
         )}
       >
         <Toaster position="top-center" />
@@ -75,8 +79,12 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           </main> */}
           <AuthProvider>
             <AI>
-              <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#000000] to[#00E2E2] via-50%  bg-black bg-opacity-15  ">
+              <Image className='absolute w-full h-auto bottom-0 z-[-10] opacity-30' sizes="100vw" src='/images/bg_bottom.png' width={0} height={500} alt='' />
+              <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#000000]  ">
+                {/* <Image className='absolute w-full h-auto bottom-0 z-10' sizes="100vw" src='/images/bg_bottom.png' width={0} height={500} alt='' /> */}
                 <MaxWidthWrapper>
+
+
                   <main>{children}</main>
                 </MaxWidthWrapper>
                 <BottomNav />

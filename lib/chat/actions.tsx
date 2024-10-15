@@ -148,12 +148,12 @@ async function submitUserMessage(content: string, access_token: string) {
               children={
                 <p className="">
                   This result is getting{' '}
-                  <span className="text-[#0045C6]">
+                  <span style={{ color: '#0045C6' }}>
                     {Number(response.data.data.accuraty).toFixed(1)}%
                   </span>{' '}
-                  + consensus from <>{(Date.now() - startTime) / 1000}</> times
-                  running of <>{response.data.data.nodes}</> notes in{' '}
-                  <>{getRandomArbitrary(5, 14)}</> LLMs
+                  + consensus from <span style={{ color: '#0045C6' }}>{(Date.now() - startTime) / 1000}</span> times
+                  running of <span style={{ color: '#0045C6' }}>{response.data.data.nodes}</span> notes in{' '}
+                  <span style={{ color: '#0045C6' }}>{getRandomArbitrary(5, 14)}</span> LLMs
                 </p>
               }
             ></BotMessage>
@@ -200,7 +200,9 @@ async function submitUserMessage(content: string, access_token: string) {
           console.error('An unexpected error occurred:', error);
         }
         textStream.done(
-          <BotMessage content={msg}>
+          <BotMessage content={msg}
+
+          >
 
           </BotMessage>
         )
