@@ -18,7 +18,7 @@ module.exports = {
     },
     extend: {
       dropShadow: {
-        tabButton: '1px 3px 0px rgba(36, 255, 244, 1)',
+        tabButton: '1px 3px 0px rgba(255, 255, 255, 1)',
         title: '1px 2px 0 rgba(0, 0, 0, 0.25)',
       },
       boxShadow: {

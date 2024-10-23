@@ -9,6 +9,7 @@
   }
 
   body {
-    @apply font-sans bg-gradient-to-r from-[#040B2F] to-[#333362] text-[#0C0D0E];
+    @apply font-sans bg-gradient-to-r from-[#13042F] to-[#503362] text-[#0C0D0E];
   }
+
 }

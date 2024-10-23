@@ -64,7 +64,7 @@ export default function IndexPage() {
             priority={false}
             alt=""
           />
-          <h1 className=" relative text-[#22FFF4] drop-shadow-title font-outfit font-bold text-[28px] text-center  z-100">
+          <h1 className=" relative text-[#22FFF4] drop-shadow-title font-outfit font-bold text-[28px] text-center z-100 stroke-[#531FA6] stroke-[10px]">
             Leaderboard
           </h1>
         </div>

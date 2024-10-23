@@ -72,28 +72,20 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          {/* <main className='flex min-h-screen flex-col items-center justify-center p-24'>
-            <h1 className='text-4xl font-bold mb-8'>JWT Authentication for Telegram mini app</h1>
-            <pre>{JSON.stringify(session, null, 2)}</pre>
-            <TelegramAuth />
-          </main> */}
+          <Image className='absolute w-full h-auto bottom-0  opacity-30' sizes="100vw" src='/images/bg_bottom.png' width={0} height={500} alt='' />
+          <div className="absolute w-full h-2/3 top-0 z-[-100] bg-gradient-to-b from-[#000000] " >
+          </div>
           <AuthProvider>
             <AI>
-              <Image className='absolute w-full h-auto bottom-0 z-[-10] opacity-30' sizes="100vw" src='/images/bg_bottom.png' width={0} height={500} alt='' />
-              <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#000000]  ">
-                {/* <Image className='absolute w-full h-auto bottom-0 z-10' sizes="100vw" src='/images/bg_bottom.png' width={0} height={500} alt='' /> */}
-                <MaxWidthWrapper>
-
-
-                  <main>{children}</main>
-                </MaxWidthWrapper>
-                <BottomNav />
-              </div>
+              <MaxWidthWrapper>
+                <main>{children}</main>
+              </MaxWidthWrapper>
+              <BottomNav />
               <TailwindIndicator />
             </AI>
           </AuthProvider>
         </Providers>
       </body>
-    </html>
+    </html >
   )
 }

@@ -15,60 +15,57 @@ const BottomNav = () => {
   const { isHomeActive, isReferralsActive, isMissionActive } = useNavigation()
 
   return (
-    <div className={`fixed bottom-0 w-full py-4 h-[82px] bg-transparent z-10`}>
-      <MaxWidthWrapper>
-        <div className="flex flex-row justify-around items-center bg-transparent w-full">
-          <Link
-            href="/referrals"
-            className={cn(
-              ' flex items-center justify-center w-32 h-12 rounded-full  bg-[#2A6772] hover:bg-[#21A5AD] drop-shadow-tabButton',
-              { 'bg-[#21A5AD]': isReferralsActive }
-            )}
-          >
-            <p
-              className={cn(
-                'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-outfit',
-                { 'text-[#FFFFFF]': isReferralsActive }
-              )}
+    <div className={`fixed bottom-0 w-full flex justify-center items-center h-[82px] bg-transparent `}>
+      <MaxWidthWrapper >
+        <div className='px-[25px]'>
+          <div className="flex flex-row justify-around items-center bg-[#181818]/50  w-full h-[46px] rounded-t-[12px] overflow-hidden">
+            <Link
+              href="/referrals"
+              className={cn('flex-1 h-full flex items-center justify-center rounded-[2px]', { 'bg-[#B04795]': isReferralsActive })}
             >
-              Referrals
-            </p>
-          </Link>
-          <Link
-            href="/"
-            className={cn(
-              ' flex items-center justify-center w-32 h-12 rounded-full  bg-[#2A6772] hover:bg-[#21A5AD] drop-shadow-tabButton',
-              { 'bg-[#21A5AD]': isHomeActive }
-            )}
-          >
-            <p
-              className={cn(
-                'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-outfit',
-                { 'text-[#FFFFFF]': isHomeActive }
-              )}
+
+              <p
+                className={cn(
+                  'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-outfit text-[14px]',
+                  { 'text-[#FFFFFF]': isReferralsActive }
+                )}
+              >
+                Referrals
+              </p>
+            </Link>
+            <Link
+              href="/"
+              className={cn('flex-1 h-full flex items-center justify-center rounded-[2px]', { 'bg-[#B04795]': isHomeActive })}
+
             >
-              MachinaFi
-            </p>
-          </Link>
-          <Link
-            href="/mission"
-            className={cn(
-              ' flex items-center justify-center w-32 h-12 rounded-full  bg-[#2A6772] hover:bg-[#21A5AD] drop-shadow-tabButton',
-              { 'bg-[#21A5AD]': isMissionActive }
-            )}
-          >
-            <p
-              className={cn(
-                'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-outfit',
-                { 'text-[#FFFFFF]': isMissionActive }
-              )}
+
+              <p
+                className={cn(
+                  'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-outfit text-[14px]',
+                  { 'text-[#FFFFFF]': isHomeActive }
+                )}
+              >
+                MachinaFi
+              </p>
+            </Link>
+            <Link
+              href="/mission"
+              className={cn('flex-1 h-full flex items-center justify-center rounded-[2px]', { 'bg-[#B04795]': isMissionActive })}
             >
-              Mission
-            </p>
-          </Link>
-        </div>
-      </MaxWidthWrapper>
-    </div>
+              <p
+                className={cn(
+                  'text-[#6ED4D3] hover:text-[#ffffff] font-bold font-outfit text-[14px] opacity-100',
+                  { 'text-[#FFFFFF]': isMissionActive }
+                )}
+              >
+                Mission
+              </p>
+            </Link>
+          </div>
+        </div >
+
+      </MaxWidthWrapper >
+    </div >
   )
 }
 

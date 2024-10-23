@@ -81,7 +81,7 @@ export function Chat({ id, className, session }: ChatProps) {
 
   return (
     <div className="relative flex flex-col h-[calc(100vh_-_102px)] bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]">
-      <Image className='absolute bottom-[55px] right-[-50px]' src='/images/EDITION.png' width={152} height={160} alt='' />
+      <Image className='absolute bottom-[55px] right-[-70px]' src='/images/EDITION.png' width={152} height={160} alt='' />
       <h1 className="w-full  h-[75px] text-[#393E46] font-outfit font-bold text-[28px] text-center pt-[20px]">
         MachinaFi
       </h1>
