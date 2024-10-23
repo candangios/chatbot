@@ -22,10 +22,12 @@ import { useAuth } from '@/lib/hooks/use-auth'
 
 export function PromptForm({
   input,
-  setInput
+  setInput,
+  onFocusInput
 }: {
   input: string
   setInput: (value: string) => void
+  onFocusInput: (isFocus: boolean) => void
 }) {
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
@@ -60,6 +62,7 @@ export function PromptForm({
           ...currentMessages,
           {
             id: nanoid(),
+            assistantVoteInfo: <></>,
             display: <UserMessage>{value}</UserMessage>
           }
         ])
@@ -113,6 +116,14 @@ export function PromptForm({
           autoCorrect="off"
           name="message"
           value={input}
+          onFocus={(event) => {
+            onFocusInput(true)
+          }}
+          onBlur={(event) => {
+            onFocusInput(false)
+          }}
+
+
           onChange={e => setInput(e.target.value)}
         />
         <div className="top-[13px]">

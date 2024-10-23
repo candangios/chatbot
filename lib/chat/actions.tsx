@@ -106,12 +106,13 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
     }
   }
 }
-
+function getRandomArbitrary(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
 async function submitUserMessage(content: string, access_token: string) {
   'use server'
 
   const aiState = getMutableAIState<typeof AI>()
-
   aiState.update({
     ...aiState.get(),
     messages: [
@@ -123,9 +124,8 @@ async function submitUserMessage(content: string, access_token: string) {
       }
     ]
   })
-  function getRandomArbitrary(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-  }
+
+  const assistantVoteInfo = createStreamableUI()
 
   const textStream = createStreamableUI(<SpinnerMessage />)
   runAsyncFnWithoutBlocking(async () => {
@@ -141,26 +141,22 @@ async function submitUserMessage(content: string, access_token: string) {
         }
       )
       .then(response => {
-        textStream.done(
-          <div className="flex flex-col">
-            <BotMessage
-              content={response.data.data.message}
-              children={
-                <p className="">
-                  This result is getting{' '}
-                  <span style={{ color: '#0045C6' }}>
-                    {Number(response.data.data.accuraty).toFixed(1)}%
-                  </span>{' '}
-                  + consensus from <span style={{ color: '#0045C6' }}>{(Date.now() - startTime) / 1000}</span> times
-                  running of <span style={{ color: '#0045C6' }}>{response.data.data.nodes}</span> notes in{' '}
-                  <span style={{ color: '#0045C6' }}>{getRandomArbitrary(5, 14)}</span> LLMs
-                </p>
-              }
-            ></BotMessage>
-            {/* <div className='pl-10'>
+        assistantVoteInfo.done(
 
-          </div> */}
-          </div>
+          <p className=" ">
+            This result is getting{' '}
+            <span style={{ color: '#0045C6' }}>
+              {Number(response.data.data.accuraty).toFixed(1)}%
+            </span>{' '}
+            + consensus from <span style={{ color: '#0045C6' }}>{(Date.now() - startTime) / 1000}</span> times
+            running of <span style={{ color: '#0045C6' }}>{response.data.data.nodes}</span> notes in{' '}
+            <span style={{ color: '#0045C6' }}>{getRandomArbitrary(5, 14)}</span> LLMs
+          </p>)
+        textStream.done(
+          <BotMessage
+            content={response.data.data.message}
+          ></BotMessage>
+
         )
         aiState.done({
           ...aiState.get(),
@@ -199,11 +195,10 @@ async function submitUserMessage(content: string, access_token: string) {
           msg = `${error}`
           console.error('An unexpected error occurred:', error);
         }
+        assistantVoteInfo.done()
         textStream.done(
           <BotMessage content={msg}
-
           >
-
           </BotMessage>
         )
         aiState.done({
@@ -221,6 +216,7 @@ async function submitUserMessage(content: string, access_token: string) {
   })
   return {
     id: nanoid(),
+    assistantVoteInfo: assistantVoteInfo.value,
     display: textStream.value
   }
 
@@ -592,6 +588,7 @@ export type AIState = {
 
 export type UIState = {
   id: string
+  assistantVoteInfo: React.ReactNode
   display: React.ReactNode
 }[]
 

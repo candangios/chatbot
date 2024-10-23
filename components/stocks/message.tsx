@@ -94,7 +94,7 @@ export function BotMessage({
             {text}
           </MemoizedReactMarkdown> */}
         </div>
-        <div className="ml-1 mt-[2px] text-[8px]">{children}</div>
+        {/* {children} */}
       </div>
     </div>
   )
