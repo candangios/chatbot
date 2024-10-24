@@ -15,7 +15,7 @@ const BottomNav = () => {
   const { isHomeActive, isReferralsActive, isMissionActive } = useNavigation()
 
   return (
-    <div className={`fixed bottom-0 w-full flex justify-center items-center h-[82px] bg-transparent `}>
+    <div className={` bottom-0 w-full flex justify-center items-center h-[82px] bg-transparent `}>
       <MaxWidthWrapper >
         <div className='px-[25px]'>
           <div className="flex flex-row justify-around items-center bg-[#181818]/50  w-full h-[46px] rounded-t-[12px] overflow-hidden">

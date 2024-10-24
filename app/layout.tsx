@@ -15,6 +15,7 @@ import { AuthProvider } from '@/lib/hooks/use-auth'
 import { AI } from '@/lib/chat/actions'
 import { Outfit, Open_Sans } from 'next/font/google'
 import Image from 'next/image'
+import { url } from 'inspector'
 const openSans = Open_Sans({
   weight: ['400', '600', '700'], // Specify the weights you want to use
   subsets: ['latin'],  // You can include other subsets like 'latin-ext'
@@ -72,18 +73,19 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <Image className='absolute w-full h-auto bottom-0  opacity-30' sizes="100vw" src='/images/bg_bottom.png' width={0} height={500} alt='' />
-          <div className="absolute w-full h-2/3 top-0 z-[-100] bg-gradient-to-b from-[#000000] " >
-          </div>
+          <Image className='absolute w-full h-auto bottom-0 opacity-30 z-[-100]' sizes="100vw" src='/images/bg_bottom.png' width={0} height={0} alt='' />
+          <div className="absolute w-full h-2/3 top-0 z-[-100] bg-gradient-to-b from-[#000000] " />
           <AuthProvider>
             <AI>
               <MaxWidthWrapper>
                 <main>{children}</main>
+                <BottomNav />
               </MaxWidthWrapper>
-              <BottomNav />
+
               <TailwindIndicator />
             </AI>
           </AuthProvider>
+
         </Providers>
       </body>
     </html >

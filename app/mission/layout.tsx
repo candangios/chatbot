@@ -5,7 +5,7 @@ interface ReferralsLayouttProps {
 
 const MissionLayout = ({ children }: ReferralsLayouttProps) => {
   return (
-    <div className="elative mx-[25px] pt-[31px] flex h-[calc(100vh_-_89px)] overflow-hidden">
+    <div className="relative mx-[25px] pt-[31px] flex h-[calc(100vh_-_82px)] overflow-hidden">
       {children}
     </div>
   )

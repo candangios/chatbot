@@ -20,6 +20,7 @@ module.exports = {
       dropShadow: {
         tabButton: '1px 3px 0px rgba(255, 255, 255, 1)',
         title: '1px 2px 0 rgba(0, 0, 0, 0.25)',
+
       },
       boxShadow: {
 
@@ -84,6 +85,12 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
+      },
+      backgroundImage: {
+        'bg-pattern': "url('/images/bg_bottom.png')",
+        'mission': "url('/images/Mission.png')",
+        'point': "url('/images/Point.png')",
+        'claim': "url('/images/Claim.png')",
       }
     }
   },

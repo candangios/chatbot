@@ -6,10 +6,10 @@ import { Button } from '@/components/ui/button'
 import { IconLeaderboard } from '@/components/ui/icons'
 import { BASE_URL } from '@/config'
 import { useAuth, User } from '@/lib/hooks/use-auth'
+import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { set } from 'zod'
 
 export default function IndexPage() {
   const { user, access_token } = useAuth()
@@ -64,7 +64,7 @@ export default function IndexPage() {
             priority={false}
             alt=""
           />
-          <h1 className=" relative text-[#22FFF4] drop-shadow-title font-outfit font-bold text-[28px] text-center z-100 stroke-[#531FA6] stroke-[10px]">
+          <h1 className="relative bg-gradient-to-r from-[#E2E2E2] to-[#F999F5] bg-clip-text text-transparent drop-shadow-title font-outfit font-bold text-[28px] text-center">
             Leaderboard
           </h1>
         </div>
@@ -75,7 +75,8 @@ export default function IndexPage() {
               {spinner}
             </div>
           )}
-          {users?.map((user, index) => {
+          {users?.map((userItem, index) => {
+            const isOwner = (user && user.telegramId === userItem.telegramId)
             return (
               <div
                 key={index}
@@ -85,16 +86,16 @@ export default function IndexPage() {
                   <p className="w-12 ml-5 text-[#6580D8] font-outfit font-semibold  size=[15px]">
                     {index + 1}
                   </p>
-                  <p className="text-[#999999] font-sans text-[14px]">
-                    {user.firstName}
+                  <p className={cn('text-[#999999] font-sans text-[14px]', { 'text-white text[16px]': isOwner })}>
+                    {userItem.firstName}
                   </p>
                   <p className=" ml-1 text-[#999999] font-sans text-[14px]">
-                    {user.lastName}
+                    {userItem.lastName}
                   </p>
                 </div>
 
-                <p className="text-white font-sans font-normal text-[15px] mr-[20px]">
-                  {user.point}
+                <p className={cn('text-white font-sans font-normal text-[15px] mr-[20px]', { 'font-semibold text-[#FFECA3] text-[20px]': isOwner })}>
+                  {userItem.point}
                 </p>
               </div>
             )
@@ -103,7 +104,7 @@ export default function IndexPage() {
       </div>
       <Button
         onClick={handleCoppyLink}
-        className="flex justify-between bg-[#181818] bg-opacity-[0.18] shadow-referralLink rounded-full h-[48px]  mt-[19px] mx-[40px]"
+        className="flex justify-between z-10 bg-[#181818] bg-opacity-[0.18] shadow-referralLink rounded-full h-[48px]  mt-[19px] mx-[40px]"
       >
         <p className="text-white text-[12px]">REFERRAL LINKS</p>
         <Image src="./codeReferral.svg" width={24} height={24} alt="" />
