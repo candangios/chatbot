@@ -25,7 +25,7 @@ export default async function IndexPage() {
           {missions?.map((item, index) => {
             return (<div
               key={index}
-              className={cn("w-[114px] flex items-center justify-center h-[156px] bg-point drop-shadow-title", { 'bg-mission': (item.type === "Mission") }, { 'bg-point': (item.type === "Point") }, { 'bg-claim': (item.type === "Claim") })}
+              className={cn("w-30 flex items-center justify-center aspect-mission bg-point bg-cover drop-shadow-title", { 'bg-mission': (item.type === "Mission") }, { 'bg-point': (item.type === "Point") }, { 'bg-claim': (item.type === "Claim") })}
             >
               <p className='text-white text-[14px] font-bold drop-shadow-title'>Coming soon</p>
 

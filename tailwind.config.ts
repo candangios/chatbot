@@ -91,6 +91,12 @@ module.exports = {
         'mission': "url('/images/Mission.png')",
         'point': "url('/images/Point.png')",
         'claim': "url('/images/Claim.png')",
+      },
+      aspectRatio: {
+        'mission': '114 / 155',
+      },
+      width: {
+        '30': '30%'
       }
     }
   },
