@@ -109,7 +109,7 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
 function getRandomArbitrary(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
-async function submitUserMessage(content: string, access_token: string) {
+async function submitUserMessage(content: string, promptId: string, access_token: string) {
   'use server'
 
   const aiState = getMutableAIState<typeof AI>()
@@ -118,7 +118,7 @@ async function submitUserMessage(content: string, access_token: string) {
     messages: [
       ...aiState.get().messages,
       {
-        id: nanoid(),
+        id: promptId,
         role: 'user',
         content
       }
@@ -133,7 +133,7 @@ async function submitUserMessage(content: string, access_token: string) {
     axios
       .post(
         `${BASE_URL}/telegram/prompt`,
-        { message: content },
+        { message: content, promptId },
         {
           headers: {
             Authorization: `Bearer ${access_token}`
@@ -142,7 +142,6 @@ async function submitUserMessage(content: string, access_token: string) {
       )
       .then(response => {
         assistantVoteInfo.done(
-
           <p className=" ">
             This result is getting{' '}
             <span style={{ color: '#0045C6' }}>
@@ -206,7 +205,7 @@ async function submitUserMessage(content: string, access_token: string) {
           messages: [
             ...aiState.get().messages,
             {
-              id: nanoid(),
+              id: promptId,
               role: 'assistant',
               content: msg
             }
@@ -215,7 +214,7 @@ async function submitUserMessage(content: string, access_token: string) {
       })
   })
   return {
-    id: nanoid(),
+    id: promptId,
     assistantVoteInfo: assistantVoteInfo.value,
     display: textStream.value
   }

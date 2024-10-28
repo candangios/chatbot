@@ -58,58 +58,28 @@ export function PromptForm({
         if (!value) return
 
         // Optimistically add user message UI
+        const promotId = nanoid()
         setMessages(currentMessages => [
           ...currentMessages,
           {
-            id: nanoid(),
+            id: promotId,
             assistantVoteInfo: <></>,
             display: <UserMessage>{value}</UserMessage>
           }
         ])
 
         // Submit and get response message
-        const responseMessage = await submitUserMessage(value, access_token)
+        const responseMessage = await submitUserMessage(value, promotId, access_token)
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >
-      <div className=" flex h-[66px] w-full grow flex-row items-center overflow-hidden  ">
-        {/* <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              className="absolute left-0 top-[14px] size-8 rounded-full bg-background p-0 sm:left-4"
-              onClick={() => {
-                router.push('/new')
-              }}
-            >
-              <IconPlus />
-              <span className="sr-only">New Chat</span>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>New Chat</TooltipContent>
-        </Tooltip> */}
-        {/* <Textarea
-          ref={inputRef}
-          tabIndex={0}
-          onKeyDown={onKeyDown}
-          placeholder="Ask me anything."
-          className=" w-full resize-none bg-[#606069] rounded-full px-4 py-[1.3rem] focus-within:outline-none shadow-inputText sm:text-sm text-white"
-          autoFocus
-          spellCheck={false}
-          autoComplete="off"
-          autoCorrect="off"
-          name="message"
-          rows={1}
-          value={input}
-          onChange={e => setInput(e.target.value)}
-        /> */}
+      <div className=" flex h-[60px] w-full grow flex-row items-center overflow-hidden  ">
         <Input
           ref={inputRef}
           tabIndex={0}
           onKeyDown={() => { onKeyDown }}
           placeholder="Ask me anything."
-          className=" w-full h-9 resize-none bg-[#606069] font-sans text-[12px] rounded-full   pl-4 py-[1.3rem] focus:outline-none shadow-inputText text-white"
+          className=" w-full h-[42px] resize-none bg-[#606069] font-sans text-[12px] rounded-full   pl-4 py-[1.3rem] focus:outline-none shadow-inputText text-white"
           autoFocus
           spellCheck={false}
           autoComplete="off"
@@ -136,10 +106,10 @@ export function PromptForm({
                 disabled={input === ''}
               >
                 <IconArrowElbow />
-                <span className="sr-only">Send message</span>
+                <span className="sr-only">Send Question</span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Send message</TooltipContent>
+            <TooltipContent>Send Question</TooltipContent>
           </Tooltip>
         </div>
       </div>

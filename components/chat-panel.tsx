@@ -58,17 +58,19 @@ export function ChatPanel({
               key={index}
               className={`cursor-pointer hover:bg-zinc-50 px-4 h-[14px] rounded-[1px] bg-[#D9D9D9]`}
               onClick={async () => {
+
+                const promptId = nanoid()
                 setMessages(currentMessages => [
                   ...currentMessages,
                   {
-                    id: nanoid(),
+                    id: promptId,
                     assistantVoteInfo: <></>,
                     display: <UserMessage>{example.content}</UserMessage>
                   }
                 ])
 
                 const responseMessage = await submitUserMessage(
-                  example.content, access_token
+                  example.content, promptId, access_token
                 )
 
                 setMessages(currentMessages => [
