@@ -102,7 +102,7 @@ export function Chat({ id, className, session }: ChatProps) {
         </div>
       </div>
       <div>
-        {messages.length > 0 && (<div className="pl-[50px] mt-[2px] mb-[10px] text-[8px]">{messages[messages.length - 1].assistantVoteInfo}</div>)}
+        {messages.length > 0 && (<div className="pl-[50px] mt-[2px] mb-[10px] text-[8px] pr-[98px]">{messages[messages.length - 1].assistantVoteInfo}</div>)}
       </div>
       <div className="px-6 w-full">
         {user ? (

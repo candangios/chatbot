@@ -17,7 +17,7 @@ export function ChatList({ messages, session, isShared }: ChatList) {
   }
 
   return (
-    <div className="w-full h-full mx-auto max-w-2xl pl-[15px] pr-[98px]">
+    <div className="w-full h-full mx-auto max-w-2xl pl-[15px] ">
       {/* {!isShared && !session ? (
         <>
           <div className="group relative mb-4 flex items-start md:-ml-12">
@@ -45,7 +45,7 @@ export function ChatList({ messages, session, isShared }: ChatList) {
       {messages.map((message, index) => (
         <div key={message.id}>
           {message.display}
-          {(index === messages.length - 1 && message.assistantVoteInfo) && (<div className="pl-[36px] mt-[2px] text-[8px]">{message.assistantVoteInfo}</div>)}
+          {/* {(index === messages.length - 1 && message.assistantVoteInfo) && (<div className="pl-[36px] mt-[2px] text-[8px]">{message.assistantVoteInfo}</div>)} */}
 
           {index < messages.length - 1 && <div className="h-3" />}
         </div>

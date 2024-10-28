@@ -15,7 +15,7 @@ import Image from 'next/image'
 
 export function UserMessage({ children }: { children: React.ReactNode }) {
   return (
-    <div className="group relative flex items-start ">
+    <div className="group relative flex items-start  pr-[98px] ">
       <div className="flex size-[32px] shrink-0 select-none items-center justify-center rounded-full  bg-background shadow-sm">
         <IconUser />
       </div>
@@ -38,7 +38,7 @@ export function BotMessage({
   const text = useStreamableText(content)
 
   return (
-    <div className={cn('group relative flex items-start ', className)}>
+    <div className={cn('group relative flex items-start pr-[98px] ', className)}>
       <div className="flex size-[32px] shrink-0 select-none items-center justify-center rounded-full  bg-primary text-primary-foreground shadow-sm">
         <Image
           src="/images/ChatBotAvatar.png"
