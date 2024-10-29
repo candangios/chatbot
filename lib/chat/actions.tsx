@@ -33,10 +33,11 @@ import {
 } from '@/lib/utils'
 import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
-import { Chat, Message } from '@/lib/types'
+import { Chat, Message, StatusPromptAnswer } from '@/lib/types'
 
 import axios from 'axios'
 import { BASE_URL } from '@/config'
+import { Button } from '@/components/ui/button'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -133,6 +134,7 @@ async function submitUserMessage(content: string, promptId: string, access_token
     axios
       .post(
         `${BASE_URL}/telegram/prompt`,
+        // 'https://api.chatgm.com/api/ai/messages',
         { message: content, promptId },
         {
           headers: {
@@ -147,14 +149,15 @@ async function submitUserMessage(content: string, promptId: string, access_token
             <span style={{ color: '#0045C6' }}>
               {Number(response.data.data.accuraty).toFixed(1)}%
             </span>{' '}
-            + consensus from <span style={{ color: '#0045C6' }}>{(Date.now() - startTime) / 1000}</span> times
-            running of <span style={{ color: '#0045C6' }}>{response.data.data.nodes}</span> notes in{' '}
-            <span style={{ color: '#0045C6' }}>{getRandomArbitrary(5, 14)}</span> LLMs
+            + consensus from running of <span style={{ color: '#0045C6' }}>{response.data.data.nodes}</span> nodes.
           </p>)
         textStream.done(
-          <BotMessage
-            content={response.data.data.message}
-          ></BotMessage>
+          <div>
+            <BotMessage
+              content={response.data.data.message} status={StatusPromptAnswer.Normal} promptId={promptId} />
+          </div>
+
+
 
         )
         aiState.done({
@@ -198,7 +201,7 @@ async function submitUserMessage(content: string, promptId: string, access_token
         textStream.done(
           <BotMessage content={msg}
           >
-          </BotMessage>
+          </BotMessage >
         )
         aiState.done({
           ...aiState.get(),
@@ -579,6 +582,12 @@ async function submitUserMessage(content: string, promptId: string, access_token
   //   display: result.value
   // }
 }
+async function submitUserReaction(promptId: string, access_token: string) {
+  'use server'
+  console.log(promptId)
+  return true
+
+}
 
 export type AIState = {
   chatId: string
@@ -594,6 +603,7 @@ export type UIState = {
 export const AI = createAI<AIState, UIState>({
   actions: {
     submitUserMessage,
+    submitUserReaction,
     confirmPurchase
   },
   initialUIState: [],
@@ -683,7 +693,7 @@ export const getUIStateFromAIState = (aiState: Chat) => {
         ) : message.role === 'assistant' &&
           typeof message.content === 'string' ? (
           <div className="flex flex-col">
-            <BotMessage content={message.content} />
+            {/* <BotMessage content={message.content} status={StatusPromptAnswer.Normal} promptId={promptId}  /> */}
           </div>
         ) : null
     }))

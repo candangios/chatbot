@@ -17,8 +17,8 @@ export interface Chat extends Record<string, any> {
 export type ServerActionResult<Result> = Promise<
   | Result
   | {
-      error: string
-    }
+    error: string
+  }
 >
 
 export interface Session {
@@ -48,4 +48,11 @@ export interface UserData {
   username?: string
   language_code: string
   is_premeum?: boolean
+}
+
+export enum StatusPromptAnswer {
+  Normal = 0,
+  ThumbUp = 1,
+  ThumbDown = 2,
+
 }

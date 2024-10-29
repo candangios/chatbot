@@ -82,7 +82,7 @@ export function Chat({ id, className, session }: ChatProps) {
 
   return (
     <div className="relative flex flex-col h-[calc(100vh_-_102px)] bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]">
-      <Image className='absolute bottom-[55px] right-[-75px] z-10' src='/images/EDITION.png' width={152} height={160} alt='' />
+      <Image className='absolute top-[-10px] right-[-75px] z-10' src='/images/EDITION.png' width={152} height={160} alt='' />
       <h1 className="w-full h-[75px] text-[#393E46] font-outfit font-bold text-[28px] text-center pt-[20px]">
         MachinaFi
       </h1>
@@ -102,7 +102,7 @@ export function Chat({ id, className, session }: ChatProps) {
         </div>
       </div>
       <div>
-        {messages.length > 0 && (<div className="pl-[50px] mt-[2px] mb-[10px] text-[8px] pr-[98px]">{messages[messages.length - 1].assistantVoteInfo}</div>)}
+        {messages.length > 0 && (<div className="pl-[50px] mt-[2px] mb-[10px] text-[8px] pr-[50px]">{messages[messages.length - 1].assistantVoteInfo}</div>)}
       </div>
       <div className="px-6 w-full">
         {user ? (

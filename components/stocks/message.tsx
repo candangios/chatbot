@@ -7,9 +7,13 @@ import { CodeBlock } from '../ui/codeblock'
 import { MemoizedReactMarkdown } from '../markdown'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
-import { StreamableValue } from 'ai/rsc'
+import { StreamableValue, useActions } from 'ai/rsc'
 import { useStreamableText } from '@/lib/hooks/use-streamable-text'
 import Image from 'next/image'
+import { Button } from '../ui/button'
+import { StatusPromptAnswer } from '@/lib/types'
+import { useAuth } from '@/lib/hooks/use-auth'
+import { useState } from 'react'
 
 // Different types of message bubbles.
 
@@ -29,16 +33,39 @@ export function UserMessage({ children }: { children: React.ReactNode }) {
 export function BotMessage({
   content,
   className,
-  children
+  children,
+  status,
+  promptId,
 }: {
   content: string | StreamableValue<string>
   className?: string
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  status?: StatusPromptAnswer
+  promptId?: string
 }) {
+  const { access_token } = useAuth()
+  const [curStatus, setCurStatus] = useState(status)
   const text = useStreamableText(content)
+  async function onChangedAnswerStatus(n_status: StatusPromptAnswer) {
+
+    try {
+
+      const respones = await fetch('/api/prompt', {
+        method: 'POST',
+        headers: { 'content-Type': 'application/json' },
+        body: JSON.stringify({ promptId, access_token, status: n_status })
+      })
+      if (!respones.ok) throw new Error('failed to fetch referrals')
+      const data = await respones.json()
+      setCurStatus(data.status)
+      // }
+    } catch (error) {
+      console.error('Error saving referral', error)
+    }
+  }
 
   return (
-    <div className={cn('group relative flex items-start pr-[98px] ', className)}>
+    <div className={cn('group relative flex items-start  ', className)}>
       <div className="flex size-[32px] shrink-0 select-none items-center justify-center rounded-full  bg-primary text-primary-foreground shadow-sm">
         <Image
           src="/images/ChatBotAvatar.png"
@@ -46,14 +73,12 @@ export function BotMessage({
           width={32}
           height={32}
         />
-        {/* <IconOpenAI /> */}
       </div>
-      <div className="flex flex-col">
-        <div className="ml-[4px] flex-1 text-[12px]  space-y-2 overflow-hidden rounded-[5px] border border-[#CCCCCC] bg-[#E6E6E6] px-[20px] py-[15px]">
-          {content.toString()}
+      <div className="flex flex-row w-full">
+        <div className="ml-[4px] flex-1  space-y-2 overflow-hidden rounded-[5px] border border-[#CCCCCC] bg-[#E6E6E6] px-[20px] py-[15px]">
 
-          {/* <MemoizedReactMarkdown
-            className="prose break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0"
+          <MemoizedReactMarkdown
+            className="prose break-words text-[12px] dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 "
             remarkPlugins={[remarkGfm, remarkMath]}
             components={{
               p({ children }) {
@@ -92,7 +117,51 @@ export function BotMessage({
             }}
           >
             {text}
-          </MemoizedReactMarkdown> */}
+          </MemoizedReactMarkdown>
+        </div>
+        <div className='flex ml-[5px] mr-[20px] items-center justify-center'>
+          {curStatus == StatusPromptAnswer.Normal && (
+            <div className='flex gap-[5px] flex-row'>
+              <Button size='fit' variant='ghost' onClick={() => onChangedAnswerStatus(StatusPromptAnswer.ThumbUp)}>
+                <Image
+                  src="./ThumbUp.svg"
+                  width={20}
+                  height={20}
+                  priority={false}
+                  alt=""
+                />
+              </Button>
+              <Button size='fit' variant='ghost' onClick={() => onChangedAnswerStatus(StatusPromptAnswer.ThumbDown)}>
+                <Image
+                  src="./ThumbDown.svg"
+                  width={20}
+                  height={20}
+                  priority={false}
+                  alt=""
+                />
+              </Button>
+            </div>
+          )
+          }
+          {
+            curStatus == StatusPromptAnswer.ThumbUp && (<Image
+              src="./SelectedThumbUp.svg"
+              width={20}
+              height={20}
+              priority={false}
+              alt=""
+            />)
+          }
+          {
+            curStatus == StatusPromptAnswer.ThumbDown && (<Image
+              src="./SelectedThumbDown.svg"
+              width={20}
+              height={20}
+              priority={false}
+              alt=""
+            />)
+          }
+
         </div>
         {/* {children} */}
       </div>
