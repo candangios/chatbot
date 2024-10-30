@@ -7,13 +7,14 @@ import { CodeBlock } from '../ui/codeblock'
 import { MemoizedReactMarkdown } from '../markdown'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
-import { StreamableValue, useActions } from 'ai/rsc'
+import { getMutableAIState, StreamableValue, useActions, useAIState } from 'ai/rsc'
 import { useStreamableText } from '@/lib/hooks/use-streamable-text'
 import Image from 'next/image'
 import { Button } from '../ui/button'
-import { StatusPromptAnswer } from '@/lib/types'
+import { Message, StatusPromptAnswer } from '@/lib/types'
 import { useAuth } from '@/lib/hooks/use-auth'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
 
 // Different types of message bubbles.
 
@@ -34,31 +35,30 @@ export function BotMessage({
   content,
   className,
   children,
-  status,
   promptId,
 }: {
   content: string | StreamableValue<string>
   className?: string
   children?: React.ReactNode,
-  status?: StatusPromptAnswer
   promptId?: string
 }) {
   const { access_token } = useAuth()
-  const [curStatus, setCurStatus] = useState(status)
+  const [aiState] = useAIState()
+  const { submitUserReaction } = useActions()
+  const [curStatus, setCurStatus] = useState(StatusPromptAnswer.Normal)
   const text = useStreamableText(content)
+  useEffect(() => {
+    const messages: Message[] = aiState.messages
+    const message = messages.find((item) => item.id === promptId && item.role === 'assistant')
+    if (message && message?.status) {
+      setCurStatus(message.status)
+    }
+  }, [promptId])
+
   async function onChangedAnswerStatus(n_status: StatusPromptAnswer) {
-
     try {
-
-      const respones = await fetch('/api/prompt', {
-        method: 'POST',
-        headers: { 'content-Type': 'application/json' },
-        body: JSON.stringify({ promptId, access_token, status: n_status })
-      })
-      if (!respones.ok) throw new Error('failed to fetch referrals')
-      const data = await respones.json()
-      setCurStatus(data.status)
-      // }
+      await submitUserReaction(promptId, n_status, access_token)
+      setCurStatus(n_status)
     } catch (error) {
       console.error('Error saving referral', error)
     }
@@ -221,3 +221,5 @@ export function SpinnerMessage() {
     </div>
   )
 }
+
+

@@ -113,6 +113,7 @@ function getRandomArbitrary(min: number, max: number) {
 async function submitUserMessage(content: string, promptId: string, access_token: string) {
   'use server'
 
+
   const aiState = getMutableAIState<typeof AI>()
   aiState.update({
     ...aiState.get(),
@@ -125,16 +126,14 @@ async function submitUserMessage(content: string, promptId: string, access_token
       }
     ]
   })
-
   const assistantVoteInfo = createStreamableUI()
 
   const textStream = createStreamableUI(<SpinnerMessage />)
   runAsyncFnWithoutBlocking(async () => {
-    const startTime = Date.now()
     axios
       .post(
         `${BASE_URL}/telegram/prompt`,
-        // 'https://api.chatgm.com/api/ai/messages',
+        // `${BASE_URL}/telegram/prompt/demo`,
         { message: content, promptId },
         {
           headers: {
@@ -145,11 +144,7 @@ async function submitUserMessage(content: string, promptId: string, access_token
       .then(response => {
         assistantVoteInfo.done(
           <p className=" ">
-            This result is getting{' '}
-            <span style={{ color: '#0045C6' }}>
-              {Number(response.data.data.accuraty).toFixed(1)}%
-            </span>{' '}
-            + consensus from running of <span style={{ color: '#0045C6' }}>{response.data.data.nodes}</span> nodes.
+            This result reached a <span style={{ color: '#0045C6' }}>{Number(response.data.data.accuraty).toFixed(1)}% </span> + consensus from <span style={{ color: '#0045C6' }}>{response.data.data.nodes}</span> nodes running <span style={{ color: '#0045C6' }}>{getRandomArbitrary(5, 14)} LLMs</span>.
           </p>)
         textStream.done(
           <div>
@@ -157,15 +152,14 @@ async function submitUserMessage(content: string, promptId: string, access_token
               content={response.data.data.message} status={StatusPromptAnswer.Normal} promptId={promptId} />
           </div>
 
-
-
         )
         aiState.done({
           ...aiState.get(),
           messages: [
             ...aiState.get().messages,
             {
-              id: nanoid(),
+              id: promptId,
+              status: StatusPromptAnswer.Normal,
               role: 'assistant',
               content: response.data.data.message
             }
@@ -203,17 +197,17 @@ async function submitUserMessage(content: string, promptId: string, access_token
           >
           </BotMessage >
         )
-        aiState.done({
-          ...aiState.get(),
-          messages: [
-            ...aiState.get().messages,
-            {
-              id: promptId,
-              role: 'assistant',
-              content: msg
-            }
-          ]
-        })
+        // aiState.done({
+        //   ...aiState.get(),
+        //   messages: [
+        //     ...aiState.get().messages,
+        //     {
+        //       id: promptId,
+        //       role: 'assistant',
+        //       content: msg
+        //     }
+        //   ]
+        // })
       })
   })
   return {
@@ -582,15 +576,41 @@ async function submitUserMessage(content: string, promptId: string, access_token
   //   display: result.value
   // }
 }
-async function submitUserReaction(promptId: string, access_token: string) {
+async function submitUserReaction(promptId: string, n_status: StatusPromptAnswer, access_token: string) {
   'use server'
-  console.log(promptId)
-  return true
+  try {
+    const res = await axios.post(
+      `${BASE_URL}/telegram/prompt/status`,
+      { promptId, status: n_status },
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      }
+    )
+    const aiState = getMutableAIState<typeof AI>()
+    const n_messages = aiState.get().messages
+    for (let index = 0; index < n_messages.length; index++) {
+      const element = n_messages[index];
+      if (element.id === promptId && element.role == 'assistant') {
+        element.status = n_status
+        break;
+      }
+    }
+    aiState.done({
+      messages: n_messages
+    })
+
+    return true
+
+  } catch (error) {
+    throw error
+  }
+
 
 }
 
 export type AIState = {
-  chatId: string
   messages: Message[]
 }
 
@@ -607,23 +627,16 @@ export const AI = createAI<AIState, UIState>({
     confirmPurchase
   },
   initialUIState: [],
-  initialAIState: { chatId: nanoid(), messages: [] },
+  initialAIState: { messages: [] },
   // onGetUIState: async () => {
   //   'use server'
-  //   console.log()
-  //   return <></>
-  //   // const session = await auth()
+  //   const session = null
 
-  //   // if (session && session.user) {
-  //   //   const aiState = getAIState() as Chat
+  //   if (session ) {
+  //     const aiState = getAIState() as Chat
+  //     if (aiState) {
+  //       const uiState = getUIStateFromAIState(aiState)
 
-  //   //   if (aiState) {
-  //   //     const uiState = getUIStateFromAIState(aiState)
-  //   //     return uiState
-  //   //   }
-  //   // } else {
-  //   //   return
-  //   // }
 
   // },
   onSetAIState: async ({ state, done }) => {
@@ -693,7 +706,7 @@ export const getUIStateFromAIState = (aiState: Chat) => {
         ) : message.role === 'assistant' &&
           typeof message.content === 'string' ? (
           <div className="flex flex-col">
-            {/* <BotMessage content={message.content} status={StatusPromptAnswer.Normal} promptId={promptId}  /> */}
+            <BotMessage content={message.content} />
           </div>
         ) : null
     }))
