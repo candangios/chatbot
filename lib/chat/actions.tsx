@@ -149,7 +149,7 @@ async function submitUserMessage(content: string, promptId: string, access_token
         textStream.done(
           <div>
             <BotMessage
-              content={response.data.data.message} status={StatusPromptAnswer.Normal} promptId={promptId} />
+              content={response.data.data.message} promptId={promptId} />
           </div>
 
         )
