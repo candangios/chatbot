@@ -128,8 +128,8 @@ async function submitUserMessage(content: string, promptId: string, access_token
   runAsyncFnWithoutBlocking(async () => {
     axios
       .post(
-        // `${BASE_URL}/telegram/prompt`,
-        `${BASE_URL}/telegram/prompt/demo`,
+        `${BASE_URL}/telegram/prompt`,
+        // `${BASE_URL}/telegram/prompt/demo`,
         { message: content, promptId },
         {
           headers: {

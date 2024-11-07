@@ -28,7 +28,7 @@ export default function IndexPage() {
       let historymessages: ClientMessage[] = []
 
       historys.forEach((element: {
-        status: ReactionStatusPromptAnswer | null;
+        status: ReactionStatusPromptAnswer | undefined;
         promptContent: string
         systemAnswer: string, promptId: string
       }) => {
