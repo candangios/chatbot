@@ -1,11 +1,11 @@
 import { Separator } from '@/components/ui/separator'
-import { UIState } from '@/lib/chat/actions'
+import { ClientMessage } from '@/lib/chat/actions'
 import { Session } from '@/lib/types'
 import Link from 'next/link'
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
 
 export interface ChatList {
-  messages: UIState
+  messages: ClientMessage[]
   session?: Session
   isShared: boolean
 }

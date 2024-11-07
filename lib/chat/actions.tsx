@@ -6,7 +6,8 @@ import {
   getMutableAIState,
   getAIState,
   streamUI,
-  createStreamableValue
+  createStreamableValue,
+  useUIState
 } from 'ai/rsc'
 import { openai } from '@ai-sdk/openai'
 
@@ -33,11 +34,11 @@ import {
 } from '@/lib/utils'
 import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
-import { Chat, Message, StatusPromptAnswer } from '@/lib/types'
+import { Chat, Message, ReactionStatusPromptAnswer } from '@/lib/types'
 
 import axios from 'axios'
 import { BASE_URL } from '@/config'
-import { Button } from '@/components/ui/button'
+import { useAuth } from '../hooks/use-auth'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -85,18 +86,18 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
       </SystemMessage>
     )
 
-    aiState.done({
-      ...aiState.get(),
-      messages: [
-        ...aiState.get().messages,
-        {
-          id: nanoid(),
-          role: 'system',
-          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${amount * price
-            }]`
-        }
-      ]
-    })
+    // aiState.done({
+    //   ...aiState.get(),
+    //   messages: [
+    //     ...aiState.get().messages,
+    //     {
+    //       id: nanoid(),
+    //       role: 'system',
+    //       content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${amount * price
+    //         }]`
+    //     }
+    //   ]
+    // })
   })
 
   return {
@@ -114,26 +115,21 @@ async function submitUserMessage(content: string, promptId: string, access_token
   'use server'
 
 
-  const aiState = getMutableAIState<typeof AI>()
-  aiState.update({
-    ...aiState.get(),
-    messages: [
-      ...aiState.get().messages,
-      {
-        id: promptId,
-        role: 'user',
-        content
-      }
-    ]
-  })
+  const history = getMutableAIState()
+  history.update([...history.get(), {
+    id: promptId,
+    role: 'user',
+    content: content
+  }])
+
   const assistantVoteInfo = createStreamableUI()
 
   const textStream = createStreamableUI(<SpinnerMessage />)
   runAsyncFnWithoutBlocking(async () => {
     axios
       .post(
-        `${BASE_URL}/telegram/prompt`,
-        // `${BASE_URL}/telegram/prompt/demo`,
+        // `${BASE_URL}/telegram/prompt`,
+        `${BASE_URL}/telegram/prompt/demo`,
         { message: content, promptId },
         {
           headers: {
@@ -153,18 +149,14 @@ async function submitUserMessage(content: string, promptId: string, access_token
           </div>
 
         )
-        aiState.done({
-          ...aiState.get(),
-          messages: [
-            ...aiState.get().messages,
-            {
-              id: promptId,
-              status: StatusPromptAnswer.Normal,
-              role: 'assistant',
-              content: response.data.data.message
-            }
-          ]
-        })
+
+        history.done([...history.get(), {
+          id: promptId,
+          role: 'assistant',
+          reactionStatus: ReactionStatusPromptAnswer.Normal,
+          content: response.data.data.message
+        }])
+
       })
       .catch(error => {
         // Handle the error properly
@@ -197,17 +189,12 @@ async function submitUserMessage(content: string, promptId: string, access_token
           >
           </BotMessage >
         )
-        // aiState.done({
-        //   ...aiState.get(),
-        //   messages: [
-        //     ...aiState.get().messages,
-        //     {
-        //       id: promptId,
-        //       role: 'assistant',
-        //       content: msg
-        //     }
-        //   ]
-        // })
+        history.done([...history.get(), {
+          id: promptId,
+          role: 'assistant',
+          content: msg
+        }])
+
       })
   })
   return {
@@ -576,7 +563,7 @@ async function submitUserMessage(content: string, promptId: string, access_token
   //   display: result.value
   // }
 }
-async function submitUserReaction(promptId: string, n_status: StatusPromptAnswer, access_token: string) {
+async function submitUserReaction(promptId: string, n_status: ReactionStatusPromptAnswer, access_token: string) {
   'use server'
   try {
     const res = await axios.post(
@@ -589,17 +576,18 @@ async function submitUserReaction(promptId: string, n_status: StatusPromptAnswer
       }
     )
     const aiState = getMutableAIState<typeof AI>()
-    const n_messages = aiState.get().messages
+    const n_messages = aiState.get()
+    console.log(n_messages.length)
     for (let index = 0; index < n_messages.length; index++) {
       const element = n_messages[index];
       if (element.id === promptId && element.role == 'assistant') {
-        element.status = n_status
+        element.reactionStatus = n_status
         break;
       }
     }
-    aiState.done({
-      messages: n_messages
-    })
+    aiState.done(
+      n_messages
+    )
 
     return true
 
@@ -610,104 +598,114 @@ async function submitUserReaction(promptId: string, n_status: StatusPromptAnswer
 
 }
 
-export type AIState = {
-  messages: Message[]
+export type ServerMessage = {
+  role: 'user' | 'assistant';
+  id: string
+  reactionStatus?: ReactionStatusPromptAnswer
+  content: string;
 }
 
-export type UIState = {
+export type ClientMessage = {
   id: string
-  assistantVoteInfo: React.ReactNode
+  assistantVoteInfo?: React.ReactNode
   display: React.ReactNode
-}[]
+}
 
-export const AI = createAI<AIState, UIState>({
+async function loadHistoryPrompt(access_token: string) {
+
+  'use server'
+
+  try {
+    const respone = await axios.get(
+      `${BASE_URL}/telegram/prompts`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`
+        }
+      }
+    )
+
+
+    return respone.data.data.reverse()
+
+  } catch (error) {
+    console.log(error)
+  }
+
+
+}
+
+export const AI = createAI<ServerMessage[], ClientMessage[]>({
   actions: {
     submitUserMessage,
     submitUserReaction,
-    confirmPurchase
+    confirmPurchase,
+    loadHistoryPrompt
   },
   initialUIState: [],
-  initialAIState: { messages: [] },
+  initialAIState: [],
   // onGetUIState: async () => {
   //   'use server'
-  //   const session = null
 
-  //   if (session ) {
-  //     const aiState = getAIState() as Chat
-  //     if (aiState) {
-  //       const uiState = getUIStateFromAIState(aiState)
 
+  //   // const historyFromDB = await loadChatFromDB();
+  //   const historyFromApp = getAIState();
+  //   console.log(historyFromApp)
+
+  //   // if (historyFromApp.length !== historyFromApp.length) {
+  //   // return historyFromApp.map((item: { content: any }) => { item.content })
+  //   return getUIStateFromAIState(historyFromApp)
+
+  //   // }
 
   // },
-  onSetAIState: async ({ state, done }) => {
-    'use server'
+  //   onSetAIState: async ({ state, done }) => {
+  //     'use server'
+  //     console.log('canlog' + !done)
+  //     if (!done) return
 
-    // if (!done) return
+  //     console.log('canlog' + state)
 
-    // const session = await auth()
-    // if (!session || !session.user) return
+  //     // const session = await auth()
+  //     // if (!session || !session.user) return
 
-    // const { chatId, messages } = state
+  //     // const { chatId, messages } = state
 
-    // const createdAt = new Date()
-    // const userId = session.user.id as string
-    // const path = `/chat/${chatId}`
+  //     // const createdAt = new Date()
+  //     // const userId = session.user.id as string
+  //     // const path = `/chat/${chatId}`
 
-    // const firstMessageContent = messages[0].content as string
-    // const title = firstMessageContent.substring(0, 100)
+  //     // const firstMessageContent = messages[0].content as string
+  //     // const title = firstMessageContent.substring(0, 100)
 
-    // const chat: Chat = {
-    //   id: chatId,
-    //   title,
-    //   userId,
-    //   createdAt,
-    //   messages,
-    //   path
-    // }
+  //     // const chat: Chat = {
+  //     //   id: chatId,
+  //     //   title,
+  //     //   userId,
+  //     //   createdAt,
+  //     //   messages,
+  //     //   path
+  //     // }
 
-    // await saveChat(chat)
-  }
+  //     // await saveChat(chat)
+  //   }
 })
 
-export const getUIStateFromAIState = (aiState: Chat) => {
-  return aiState.messages
-    .filter(message => message.role !== 'system')
-    .map((message, index) => ({
-      id: `${aiState.chatId}-${index}`,
-      display:
-        // message.role === 'tool' ? (
-        //   message.content.map(tool => {
-        //     return tool.toolName === 'listStocks' ? (
-        //       <BotCard>
-        //         {/* TODO: Infer types based on the tool result*/}
-        //         {/* @ts-expect-error */}
-        //         <Stocks props={tool.result} />
-        //       </BotCard>
-        //     ) : tool.toolName === 'showStockPrice' ? (
-        //       <BotCard>
-        //         {/* @ts-expect-error */}
-        //         <Stock props={tool.result} />
-        //       </BotCard>
-        //     ) : tool.toolName === 'showStockPurchase' ? (
-        //       <BotCard>
-        //         {/* @ts-expect-error */}
-        //         <Purchase props={tool.result} />
-        //       </BotCard>
-        //     ) : tool.toolName === 'getEvents' ? (
-        //       <BotCard>
-        //         {/* @ts-expect-error */}
-        //         <Events props={tool.result} />
-        //       </BotCard>
-        //     ) : null
-        //   })
-        // ) :
-        message.role === 'user' ? (
-          <UserMessage>{message.content as string}</UserMessage>
-        ) : message.role === 'assistant' &&
-          typeof message.content === 'string' ? (
-          <div className="flex flex-col">
-            <BotMessage content={message.content} />
-          </div>
-        ) : null
-    }))
-}
+// export const getUIStateFromAIState = (aiState: ServerMessage[]): ClientMessage[] => {
+//   const a = aiState.map((message) => {
+//     return ({
+//       id: message.id,
+//       display:
+//         message.role === 'user' ? (
+//           <UserMessage>{message.content as string}</UserMessage>
+//         ) : message.role === 'assistant' &&
+//           typeof message.content === 'string' ? (
+//           <div className="flex flex-col">
+//             <BotMessage content={message.content} />
+//           </div>
+//         ) : null
+//     })
+//   })
+//   return a
+
+// }

@@ -7,8 +7,7 @@ import React, {
   use
 } from 'react'
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
-import { set } from 'zod'
+
 import { BASE_URL } from '@/config'
 
 // Định nghĩa kiểu dữ liệu cho người dùng
@@ -96,6 +95,7 @@ export const AuthProvider = ({ children }: any) => {
   // Hàm đăng xuất
   const logout = (): void => {
     Cookies.remove('access_token')
+    Cookies.remove('telegramId')
     setUser(null)
     // router.push('/');
   }

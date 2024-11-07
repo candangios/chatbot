@@ -5,7 +5,7 @@ import { formatDate } from '@/lib/utils'
 import { getSharedChat } from '@/app/actions'
 import { ChatList } from '@/components/chat-list'
 import { FooterText } from '@/components/footer'
-import { AI, UIState, getUIStateFromAIState } from '@/lib/chat/actions'
+import { AI, ClientMessage, getUIStateFromAIState } from '@/lib/chat/actions'
 
 export const runtime = 'edge'
 export const preferredRegion = 'home'

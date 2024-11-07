@@ -31,8 +31,8 @@ export function Chat({ id, className, session }: ChatProps) {
   const [input, setInput] = useState('')
   const [messages] = useUIState()
   const [aiState] = useAIState()
-  const { user, auth } = useAuth()
-  const [_, setNewChatId] = useLocalStorage('newChatId', id)
+  const { user, auth, access_token } = useAuth()
+  // const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
   useEffect(() => {
     if (session?.user) {
@@ -49,9 +49,9 @@ export function Chat({ id, className, session }: ChatProps) {
     }
   }, [aiState.messages, router])
 
-  useEffect(() => {
-    setNewChatId(id)
-  })
+  // useEffect(() => {
+  //   setNewChatId(id)
+  // })
 
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
     useScrollAnchor()
@@ -81,49 +81,53 @@ export function Chat({ id, className, session }: ChatProps) {
 
 
   return (
-    <div className="relative flex flex-col h-[calc(100vh_-_102px)] bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]">
-      <Image className='absolute top-[-10px] right-[-75px] z-10' src='/images/EDITION.png' width={152} height={160} alt='' />
-      <h1 className="w-full h-[75px] text-[#393E46] font-outfit font-bold text-[28px] text-center pt-[20px]">
-        MachinaFi
-      </h1>
-      <div className="w-full flex-grow overflow-y-scroll" ref={scrollRef}>
-        <ButtonScrollToBottom
-          isAtBottom={isAtBottom}
-          scrollToBottom={scrollToBottom}
-        />
+    <div className='relative mx-[25px] pt-[16px] flex h-[calc(100vh_-_86px)] '>
 
-        <div className={cn('', className)} ref={messagesRef}>
-          {messages.length ? (
-            <ChatList messages={messages} isShared={false} session={session} />
-          ) : (
-            <EmptyScreen />
-          )}
-          <div className="w-full h-px" ref={visibilityRef} />
-        </div>
-      </div>
-      <div>
-        {messages.length > 0 && (<div className="pl-[50px] mt-[2px] mb-[10px] text-[8px] pr-[50px]">{messages[messages.length - 1].assistantVoteInfo}</div>)}
-      </div>
-      <div className="px-6 w-full">
-        {user ? (
-          <ChatPanel
-            id={id}
-            input={input}
-            setInput={setInput}
+      <div className="flex flex-col w-full bg-gradient-to-b from-[#F5F5F5] to-[#E5E5E5] rounded-[48px]">
+        <h1 className="w-full h-[75px] text-[#393E46] font-outfit font-bold text-[28px] text-center pt-[20px]">
+          MachinaFi
+        </h1>
+        <div className="w-full flex-grow z-0 overflow-y-scroll" ref={scrollRef}>
+          <ButtonScrollToBottom
             isAtBottom={isAtBottom}
             scrollToBottom={scrollToBottom}
           />
-        ) : (
-          <>
-            <Button
-              onClick={authenticateUser}
-              className="flex justify-between bg-[#606069] w-full shadow-inputText  rounded-full h-[42px]  mt-[22px] mb-2"
-            >
-              <p className="text-white w-full text-center text-[12px]">Join now</p>
-            </Button>
-          </>
-        )}
+
+          <div className={cn('', className)} ref={messagesRef}>
+            {messages.length ? (
+              <ChatList messages={messages} isShared={false} session={session} />
+            ) : (
+              <EmptyScreen />
+            )}
+            <div className="w-full h-px" ref={visibilityRef} />
+          </div>
+        </div>
+        <div>
+          {messages.length > 0 && (<div className="pl-[50px] mt-[2px] mb-[10px] text-[8px] pr-[50px]">{messages[messages.length - 1].assistantVoteInfo}</div>)}
+        </div>
+        <div className="px-6 w-full">
+          {user ? (
+            <ChatPanel
+              id={id}
+              input={input}
+              setInput={setInput}
+              isAtBottom={isAtBottom}
+              scrollToBottom={scrollToBottom}
+            />
+          ) : (
+            <>
+              <Button
+                onClick={authenticateUser}
+                className="flex justify-between bg-[#606069] w-full shadow-inputText  rounded-full h-[42px]  mt-[22px] mb-2"
+              >
+                <p className="text-white w-full text-center text-[12px]">Join now</p>
+              </Button>
+            </>
+          )}
+        </div>
       </div>
+      <Image className='absolute top-[20px] right-[-75px] z-10' src='/images/EDITION.png' width={152} height={160} alt='' />
     </div>
+
   )
 }

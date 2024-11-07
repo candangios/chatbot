@@ -7,7 +7,7 @@ import { IconShare } from '@/components/ui/icons'
 import { FooterText } from '@/components/footer'
 import { ChatShareDialog } from '@/components/chat-share-dialog'
 import { useAIState, useActions, useUIState } from 'ai/rsc'
-import type { AI } from '@/lib/chat/actions'
+import type { AI, ClientMessage } from '@/lib/chat/actions'
 import { nanoid } from 'nanoid'
 import { UserMessage } from './stocks/message'
 import { useAuth } from '@/lib/hooks/use-auth'
@@ -60,11 +60,11 @@ export function ChatPanel({
               onClick={async () => {
 
                 const promptId = nanoid()
+
                 setMessages(currentMessages => [
                   ...currentMessages,
                   {
                     id: promptId,
-                    assistantVoteInfo: <></>,
                     display: <UserMessage>{example.content}</UserMessage>
                   }
                 ])

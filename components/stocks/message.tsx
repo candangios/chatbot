@@ -11,9 +11,10 @@ import { getMutableAIState, StreamableValue, useActions, useAIState } from 'ai/r
 import { useStreamableText } from '@/lib/hooks/use-streamable-text'
 import Image from 'next/image'
 import { Button } from '../ui/button'
-import { Message, StatusPromptAnswer } from '@/lib/types'
+import { Message, ReactionStatusPromptAnswer } from '@/lib/types'
 import { useAuth } from '@/lib/hooks/use-auth'
 import { useEffect, useState } from 'react'
+import { ServerMessage } from '@/lib/chat/actions'
 
 
 // Different types of message bubbles.
@@ -36,26 +37,31 @@ export function BotMessage({
   className,
   children,
   promptId,
+  status
 }: {
   content: string | StreamableValue<string>
   className?: string
   children?: React.ReactNode,
-  promptId?: string
+  promptId?: string,
+  status?: ReactionStatusPromptAnswer
 }) {
   const { access_token } = useAuth()
   const [aiState] = useAIState()
   const { submitUserReaction } = useActions()
-  const [curStatus, setCurStatus] = useState(StatusPromptAnswer.Normal)
+  const [curStatus, setCurStatus] = useState<ReactionStatusPromptAnswer | null>(status ?? null)
   const text = useStreamableText(content)
   useEffect(() => {
-    const messages: Message[] = aiState.messages
+    const messages: ServerMessage[] = aiState
+
     const message = messages.find((item) => item.id === promptId && item.role === 'assistant')
-    if (message && message?.status) {
-      setCurStatus(message.status)
+
+    if (message && message.reactionStatus !== null) {
+
+      setCurStatus(message.reactionStatus!)
     }
   }, [promptId])
 
-  async function onChangedAnswerStatus(n_status: StatusPromptAnswer) {
+  async function onChangedAnswerStatus(n_status: ReactionStatusPromptAnswer) {
     try {
       await submitUserReaction(promptId, n_status, access_token)
       setCurStatus(n_status)
@@ -120,9 +126,9 @@ export function BotMessage({
           </MemoizedReactMarkdown>
         </div>
         <div className='flex ml-[5px] mr-[20px] items-center justify-center'>
-          {curStatus == StatusPromptAnswer.Normal && (
+          {curStatus == ReactionStatusPromptAnswer.Normal && (
             <div className='flex gap-[5px] flex-row'>
-              <Button size='fit' variant='ghost' onClick={() => onChangedAnswerStatus(StatusPromptAnswer.ThumbUp)}>
+              <Button size='fit' variant='ghost' onClick={() => onChangedAnswerStatus(ReactionStatusPromptAnswer.ThumbUp)}>
                 <Image
                   src="./ThumbUp.svg"
                   width={20}
@@ -131,7 +137,7 @@ export function BotMessage({
                   alt=""
                 />
               </Button>
-              <Button size='fit' variant='ghost' onClick={() => onChangedAnswerStatus(StatusPromptAnswer.ThumbDown)}>
+              <Button size='fit' variant='ghost' onClick={() => onChangedAnswerStatus(ReactionStatusPromptAnswer.ThumbDown)}>
                 <Image
                   src="./ThumbDown.svg"
                   width={20}
@@ -144,7 +150,7 @@ export function BotMessage({
           )
           }
           {
-            curStatus == StatusPromptAnswer.ThumbUp && (<Image
+            curStatus == ReactionStatusPromptAnswer.ThumbUp && (<Image
               src="./SelectedThumbUp.svg"
               width={20}
               height={20}
@@ -153,7 +159,7 @@ export function BotMessage({
             />)
           }
           {
-            curStatus == StatusPromptAnswer.ThumbDown && (<Image
+            curStatus == ReactionStatusPromptAnswer.ThumbDown && (<Image
               src="./SelectedThumbDown.svg"
               width={20}
               height={20}

@@ -12,4 +12,21 @@
     @apply font-sans bg-gradient-to-r from-[#13042F] to-[#503362] text-[#0C0D0E];
   }
 
+
+
+}
+
+.TabsTrigger {
+  flex: 1;
+  height: 100%;
+
+}
+
+.TabsTrigger:hover {
+  color: #B04795;
+}
+
+.TabsTrigger[data-state="active"] {
+  background-color: #B04795;
+  border-radius: 2px;
 }

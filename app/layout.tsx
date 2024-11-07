@@ -76,10 +76,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           <Image className='absolute w-full h-auto bottom-0 opacity-30 z-[-100]' sizes="100vw" src='/images/bg_bottom.png' width={0} height={0} alt='' />
           <div className="absolute w-full h-2/3 top-0 z-[-100] bg-gradient-to-b from-[#000000] " />
           <AuthProvider>
-            <AI>
+
+            <AI >
               <MaxWidthWrapper>
                 <main>{children}</main>
-                <BottomNav />
+                {/* <BottomNav /> */}
               </MaxWidthWrapper>
 
               <TailwindIndicator />

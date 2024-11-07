@@ -2,7 +2,7 @@ import { CoreMessage } from 'ai'
 
 export type Message = CoreMessage & {
   id: string
-  status?: StatusPromptAnswer
+  status?: ReactionStatusPromptAnswer
 }
 
 export interface Chat extends Record<string, any> {
@@ -51,7 +51,7 @@ export interface UserData {
   is_premeum?: boolean
 }
 
-export enum StatusPromptAnswer {
+export enum ReactionStatusPromptAnswer {
   Normal = 0,
   ThumbUp = 1,
   ThumbDown = 2,
