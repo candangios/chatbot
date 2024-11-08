@@ -46,17 +46,17 @@ export function Purchase({
 
     // If last history state is already this info, update it. This is to avoid
     // adding every slider change to the history.
-    if (aiState.messages[aiState.messages.length - 1]?.id === id) {
-      setAIState({
-        ...aiState,
-        messages: [...aiState.messages.slice(0, -1), message]
-      })
+    if (aiState[aiState.length - 1]?.id === id) {
+      setAIState([
+        ...aiState.slice(0, -1), message]
+      )
 
       return
     }
 
     // If it doesn't exist, append it to history.
-    setAIState({ ...aiState, messages: [...aiState.messages, message] })
+    // setAIState({ ...aiState, messages: [...aiState.messages, message] })
+    setAIState([...aiState, message])
   }
 
   return (

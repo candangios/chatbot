@@ -599,7 +599,7 @@ async function submitUserReaction(promptId: string, n_status: ReactionStatusProm
 }
 
 export type ServerMessage = {
-  role: 'user' | 'assistant';
+  role: 'user' | 'assistant' | 'system';
   id: string
   reactionStatus?: ReactionStatusPromptAnswer
   content: string;
